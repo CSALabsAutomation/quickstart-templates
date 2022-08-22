@@ -137,14 +137,14 @@
     },
     "rawDataLakeAccountName": {
       "type": "string",
-      "defaultValue": "azrawdatalakego2d3",
+      "defaultValue": "[format('azrawdatalake{0}', parameters('uniqueSuffix'))]",
       "metadata": {
         "description": "Synapse Workspace Data Lake Storage Account Name"
       }
     },
     "curatedDataLakeAccountName": {
       "type": "string",
-      "defaultValue": "[format('azcurateddatalake{0}', parameters('uniqueSuffix'))]",
+      "defaultValue": "azcurateddatalakego2d3",
       "metadata": {
         "description": "Synapse Workspace Data Lake Storage Account Name"
       }
