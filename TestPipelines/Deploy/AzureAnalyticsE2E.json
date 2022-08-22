@@ -144,7 +144,7 @@
     },
     "curatedDataLakeAccountName": {
       "type": "string",
-      "defaultValue": "azcurateddatalakego2d3",
+      "defaultValue": "[format('azcurateddatalake{0}', parameters('uniqueSuffix'))]",
       "metadata": {
         "description": "Synapse Workspace Data Lake Storage Account Name"
       }
