@@ -59,6 +59,18 @@
             },
             "defaultValue": "Standard_D8s_v3"
         },
+        "dataDisksLUNs": {
+            "type": "array",
+            "defaultValue": [
+                0
+            ]
+        },
+        "logDisksLUNs": {
+            "type": "array",
+            "defaultValue": [
+                0
+            ]
+        },
         "_artifactsLocation": {
             "type": "string",
             "metadata": {
@@ -323,15 +335,15 @@
                 "diskConfigurationType": "NEW",
                 "storageWorkloadType": "General",
                 "sqlDataSettings": {
-                  "luns": 0,
-                  "defaultFilePath": "F:\\data"
+                  "LUNs": "[parameters('dataDisksLUNs')]",
+                  "DefaultFilePath": "F:\\data"
                 },
                 "sqlLogSettings": {
-                  "luns": 0,
-                  "defaultFilePath": "F:\\log"
+                  "LUNs": "[parameters('logDisksLUNs')]",
+                  "DefaultFilePath": "F:\\log"
                 },
                 "sqlTempDbSettings": {
-                  "defaultFilePath": "F:\\tempDb"
+                  "DefaultFilePath": "F:\\tempDb"
                 }
               },
               "ServerConfigurationsManagementSettings": {
