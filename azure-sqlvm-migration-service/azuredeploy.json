@@ -637,7 +637,7 @@
             }
         },
         {
-            "type": "Microsoft.DataMigration/sqlMigrationServices",
+            "type": "Microsoft.DataMigration/databaseMigrations",
             "apiVersion": "2022-03-30-preview",
             "name": "dmsservice",
             "location": "[parameters('location')]",
