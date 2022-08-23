@@ -341,60 +341,42 @@
                     }
                 }
             },
-            "resources": [
-                {
-                    "apiVersion": "2019-12-01",
-                    "type": "extensions",
-                    "name": "SqlIaasExtension",
-                    "location": "[parameters('location')]",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Compute/virtualMachines/', variables('targetServerName'))]"
-                    ],
-                    "properties": {
-                        "type": "SqlIaaSAgent",
-                        "publisher": "Microsoft.SqlServer.Management",
-                        "typeHandlerVersion": "1.2",
-                        "autoUpgradeMinorVersion": "true",
-                        "settings": {
-                            "AutoTelemetrySettings": {
-                                "Region": "[parameters('location')]"
-                            },
-                            "AutoPatchingSettings": {
-                                "PatchCategory": "WindowsMandatoryUpdates",
-                                "Enable": false,
-                                "DayOfWeek": "Sunday",
-                                "MaintenanceWindowStartingHour": "2",
-                                "MaintenanceWindowDuration": "60"
-                            },
-                            "KeyVaultCredentialSettings": {
-                                "Enable": false
-                            },
-                            "ServerConfigurationsManagementSettings": {
-                                "SQLConnectivityUpdateSettings": {
-                                    "ConnectivityType": "Private",
-                                    "Port": "1433"
-                                },
-                                "SQLWorkloadTypeUpdateSettings": {
-                                    "SQLWorkloadType": "OLTP"
-                                },
-                                "SQLStorageUpdateSettings": {
-                                    "DiskCount": "1",
-                                    "NumberOfColumns": "8",
-                                    "StartingDeviceID": "2",
-                                    "DiskConfigurationType": "NEW"
-                                },
-                                "AdditionalFeaturesServerConfigurations": {
-                                    "IsRServicesEnabled": "false"
-                                }
-                            }
-                        },
-                        "protectedSettings": {
-                            "SQLAuthUpdateUserName": "[parameters('targetWindowsAdminUserName')]",
-                            "SQLAuthUpdatePassword": "[parameters('targetSqlAuthenticationPassword')]"
-                        }
-                    }
-                }
-            ]
+            {
+      "type": "Microsoft.SqlVirtualMachine/sqlVirtualMachines",
+      "apiVersion": "2021-11-01-preview",
+      "name": "[variables('targetServerName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "virtualMachineResourceId": "[resourceId('Microsoft.Compute/virtualMachines', variables('targetServerName'))]",
+        "sqlManagement": "Full",
+        "sqlServerLicenseType": "PAYG",
+        "storageConfigurationSettings": {
+          "diskConfigurationType": "NEW",
+          "storageWorkloadType": "General",
+          "sqlDataSettings": {
+            "luns": 0,
+            "defaultFilePath": "F:\\data"
+          },
+          "sqlLogSettings": {
+            "luns": 0,
+            "defaultFilePath": "F:\\log"
+          },
+          "sqlTempDbSettings": {
+            "defaultFilePath": "F:\\tempDb"
+          }
+        },
+        "ServerConfigurationsManagementSettings": {
+            "SQLConnectivityUpdateSettings": {
+                "ConnectivityType": "Private",
+                "Port": "1433",
+                "SQLAuthUpdateUserName": "[parameters('sourceWindowsAdminUserName')]",
+                "SQLAuthUpdatePassword": "[parameters('sourceSqlAuthenticationPassword')]"
+            }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', variables('targetServerName'))]"
+      ]
         },
         {
             "type": "Microsoft.Network/networkInterfaces",
