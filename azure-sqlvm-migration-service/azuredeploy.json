@@ -61,15 +61,15 @@
         },
         "dataDisksLUNs": {
             "type": "array",
-            "defaultValue": [
-                0
-            ]
+            "defaultValue": [0]
         },
         "logDisksLUNs": {
             "type": "array",
-            "defaultValue": [
-                0
-            ]
+            "defaultValue": [0]
+        },
+        "tempDisksLUNs": {
+            "type": "array",
+            "defaultValue": [0]
         },
         "_artifactsLocation": {
             "type": "string",
@@ -343,6 +343,7 @@
                   "DefaultFilePath": "F:\\log"
                 },
                 "sqlTempDbSettings": {
+                  "LUNs": "[parameters('tempDisksLUNs')]",
                   "DefaultFilePath": "F:\\tempDb"
                 }
               },
