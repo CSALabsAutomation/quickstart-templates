@@ -1,6 +1,7 @@
 param networkIsolationMode string
 param resourceLocation string
 
+param SampleLakeAccountName="azrawdatalakego2d3"
 param rawDataLakeAccountName string
 param curatedDataLakeAccountName string
 param rawDataLakeZoneContainerNames array
@@ -102,6 +103,28 @@ resource r_rawDataLakeStorageAccount 'Microsoft.Storage/storageAccounts@2021-02-
   }
 }
 
+// Sample account storageaccount
+resource r_Sampleaccountstorageaccount 'Microsoft.Storage/storageAccounts@2021-02-01' = {
+  name: SampleLakeAccountName
+  location: resourceLocation
+  properties:{
+    isHnsEnabled: true
+    accessTier:'Hot'
+    networkAcls: {
+      defaultAction: (networkIsolationMode == 'vNet')? 'Deny' : 'Allow'
+      //bypass: only required for EventHubs. All other services will have specific access rules defined in the resourceAccessRules element below.
+      //Only EventHubs in the same subscription will have access to the storage account: https://docs.microsoft.com/en-us/azure/storage/common/storage-network-security?tabs=azure-portal#trusted-access-for-resources-registered-in-your-subscription
+      bypass: (ctrlDeployStreaming && ctrlStreamIngestionService == 'eventhub') ? 'AzureServices' : 'None' 
+      resourceAccessRules: dataLakeresourceAccessRules
+    }
+  }
+  kind:'StorageV2'
+  sku: {
+      name: 'Standard_GRS'
+  }
+}
+
+
 //Curated Data Lake Storage Account
 resource r_curatedDataLakeStorageAccount 'Microsoft.Storage/storageAccounts@2021-02-01' = {
   name: curatedDataLakeAccountName
@@ -126,6 +149,10 @@ resource r_curatedDataLakeStorageAccount 'Microsoft.Storage/storageAccounts@2021
 //Data Lake zone containers
 resource r_rawDataLakeZoneContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-02-01' = [for containerName in rawDataLakeZoneContainerNames: {
   name:'${r_rawDataLakeStorageAccount.name}/default/${containerName}'
+}]
+
+resource r_SampleDataLakeZoneContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-02-01' = [for containerName in SampleDataLakeZoneContainerNames: {
+  name:'${r_Sampleaccountstorageaccount.name}/default/${containerName}'
 }]
 
 resource r_curatedDataLakeZoneContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-02-01' = [for containerName in curatedDataLakeZoneContainerNames: {
