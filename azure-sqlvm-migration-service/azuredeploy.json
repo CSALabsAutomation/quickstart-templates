@@ -260,7 +260,7 @@
         {
             "type": "Microsoft.DataMigration/sqlMigrationServices",
             "apiVersion": "2022-03-30-preview",
-            "name": "[parameters('DMSServiceName')]",
+            "name": "[variables('DMSServiceName')]",
             "location": "[parameters('location')]",
             "tags": {},
             "properties": {}
