@@ -642,7 +642,10 @@
             "name": "dmsservice",
             "location": "[parameters('location')]",
             "tags": {},
-            "properties": {}
+            "properties": {},
+            "dependsOn": [
+                        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('sourceServerName'), 'CustomScriptExtension')]"
+                    ]
         },
         {
             "type": "Microsoft.Network/virtualNetworks",
