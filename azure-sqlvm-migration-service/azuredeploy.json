@@ -637,6 +637,14 @@
             }
         },
         {
+            "type": "Microsoft.DataMigration/sqlMigrationServices",
+            "apiVersion": "2022-03-30-preview",
+            "name": "dmsservice",
+            "location": "[parameters('location')]",
+            "tags": {},
+            "properties": {}
+        },
+        {
             "type": "Microsoft.Network/virtualNetworks",
             "name": "[variables('adVNet')]",
             "apiVersion": "2020-05-01",
