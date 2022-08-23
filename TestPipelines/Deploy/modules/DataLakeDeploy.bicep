@@ -1,7 +1,7 @@
 param networkIsolationMode string
 param resourceLocation string
 
-param SampleLakeAccountName="azrawdatalakego2d3"
+param SampleLakeAccountName=string
 param rawDataLakeAccountName string
 param curatedDataLakeAccountName string
 param rawDataLakeZoneContainerNames array
@@ -161,5 +161,7 @@ resource r_curatedDataLakeZoneContainer 'Microsoft.Storage/storageAccounts/blobS
 
 output rawDataLakeStorageAccountID string = r_rawDataLakeStorageAccount.id
 output rawDataLakeStorageAccountName string = r_rawDataLakeStorageAccount.name
+output SampleDataLakeStorageAccountID string = r_Sampleaccountstorageaccount.id
+output SampleDataLakeStorageAccountName string = r_Sampleaccountstorageaccount.name
 output curatedDataLakeStorageAccountID string = r_curatedDataLakeStorageAccount.id
 output curatedDataLakeStorageAccountName string = r_curatedDataLakeStorageAccount.name
