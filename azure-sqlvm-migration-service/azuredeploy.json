@@ -246,38 +246,6 @@
             ]
         },
         {
-            "type": "Microsoft.DataMigration/services",
-            "sku": {
-                "name": "Standard_4vCores",
-                "tier": "Standard",
-                "size": "4 vCores"
-            },
-            "name": "[variables('DMSServiceName')]",
-            "apiVersion": "2018-07-15-preview",
-            "location": "[parameters('location')]",
-            "properties": {
-                "virtualSubnetId": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('adVNet'), variables('defaultSubnetName'))]"
-            },
-            "resources": [
-                {
-                    "type": "projects",
-                    "name": "SqlToSqlVMMigrationProject",
-                    "apiVersion": "2018-07-15-preview",
-                    "location": "[parameters('location')]",
-                    "properties": {
-                        "sourcePlatform": "SQL",
-                        "targetPlatform": "SQLVM"
-                    },
-                    "dependsOn": [
-                        "[resourceId('Microsoft.DataMigration/services', variables('DMSServiceName'))]"
-                    ]
-                }
-            ],
-            "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('adVNet'), variables('defaultSubnetName'))]"
-            ]
-        },
-        {
             "type": "Microsoft.Compute/virtualMachines",
             "name": "[variables('targetServerName')]",
             "apiVersion": "2019-12-01",
@@ -340,43 +308,44 @@
                         "storageUri": "[reference(variables('storageAccountName'), '2019-06-01').primaryEndpoints['blob']]"
                     }
                 }
-            },
-            {
-      "type": "Microsoft.SqlVirtualMachine/sqlVirtualMachines",
-      "apiVersion": "2021-11-01-preview",
-      "name": "[variables('targetServerName')]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "virtualMachineResourceId": "[resourceId('Microsoft.Compute/virtualMachines', variables('targetServerName'))]",
-        "sqlManagement": "Full",
-        "sqlServerLicenseType": "PAYG",
-        "storageConfigurationSettings": {
-          "diskConfigurationType": "NEW",
-          "storageWorkloadType": "General",
-          "sqlDataSettings": {
-            "luns": 0,
-            "defaultFilePath": "F:\\data"
-          },
-          "sqlLogSettings": {
-            "luns": 0,
-            "defaultFilePath": "F:\\log"
-          },
-          "sqlTempDbSettings": {
-            "defaultFilePath": "F:\\tempDb"
-          }
-        },
-        "ServerConfigurationsManagementSettings": {
-            "SQLConnectivityUpdateSettings": {
-                "ConnectivityType": "Private",
-                "Port": "1433",
-                "SQLAuthUpdateUserName": "[parameters('sourceWindowsAdminUserName')]",
-                "SQLAuthUpdatePassword": "[parameters('sourceSqlAuthenticationPassword')]"
             }
-        }
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Compute/virtualMachines', variables('targetServerName'))]"
-      ]
+        },
+        {
+            "type": "Microsoft.SqlVirtualMachine/sqlVirtualMachines",
+            "apiVersion": "2021-11-01-preview",
+            "name": "[variables('targetServerName')]",
+            "location": "[parameters('location')]",
+            "properties": {
+              "virtualMachineResourceId": "[resourceId('Microsoft.Compute/virtualMachines', variables('targetServerName'))]",
+              "sqlManagement": "Full",
+              "sqlServerLicenseType": "PAYG",
+              "storageConfigurationSettings": {
+                "diskConfigurationType": "NEW",
+                "storageWorkloadType": "General",
+                "sqlDataSettings": {
+                  "luns": 0,
+                  "defaultFilePath": "F:\\data"
+                },
+                "sqlLogSettings": {
+                  "luns": 0,
+                  "defaultFilePath": "F:\\log"
+                },
+                "sqlTempDbSettings": {
+                  "defaultFilePath": "F:\\tempDb"
+                }
+              },
+              "ServerConfigurationsManagementSettings": {
+                  "SQLConnectivityUpdateSettings": {
+                      "ConnectivityType": "Private",
+                      "Port": "1433",
+                      "SQLAuthUpdateUserName": "[parameters('sourceWindowsAdminUserName')]",
+                      "SQLAuthUpdatePassword": "[parameters('sourceSqlAuthenticationPassword')]"
+                  }
+              }
+            },
+            "dependsOn": [
+              "[resourceId('Microsoft.Compute/virtualMachines', variables('targetServerName'))]"
+            ]
         },
         {
             "type": "Microsoft.Network/networkInterfaces",
