@@ -142,6 +142,13 @@
         "description": "Synapse Workspace Data Lake Storage Account Name"
       }
     },
+     "SampleLakeAccountName": {
+      "type": "string",
+      "defaultValue": "azrawdatalakego2d3",
+      "metadata": {
+        "description": "Synapse Workspace Data Lake Storage Account Name"
+      }
+    },
     "curatedDataLakeAccountName": {
       "type": "string",
       "defaultValue": "[format('azcurateddatalake{0}', parameters('uniqueSuffix'))]",
@@ -157,6 +164,20 @@
       }
     },
     "dataLakeTrustedZoneName": {
+      "type": "string",
+      "defaultValue": "trusted",
+      "metadata": {
+        "description": "Data Lake Trusted Zone Container Name"
+      }
+    },
+    "SampledataLakeRawZoneName": {
+      "type": "string",
+      "defaultValue": "raw",
+      "metadata": {
+        "description": "Data Lake Raw Zone Container Name"
+      }
+    },
+    "SampledataLakeTrustedZoneName": {
       "type": "string",
       "defaultValue": "trusted",
       "metadata": {
@@ -469,6 +490,10 @@
     "rawDataLakeZoneContainerNames": [
       "[parameters('dataLakeTransientZoneName')]",
       "[parameters('dataLakeRawZoneName')]"
+    ],
+    "SampleDataLakeZoneContainerNames": [
+      "[parameters('SampledataLakeTrustedZoneName')]",
+      "[parameters('SampledataLakeRawZoneName')]"
     ],
     "curatedDataLakeZoneContainerNames": [
       "[parameters('dataLakeTrustedZoneName')]",
@@ -1766,6 +1791,9 @@
           "rawDataLakeZoneContainerNames": {
             "value": "[variables('rawDataLakeZoneContainerNames')]"
           },
+          "SampleDataLakeZoneContainerNames": {
+            "value": "[variables('SampleDataLakeZoneContainerNames')]"
+          },
           "dataShareResourceID": {
             "value": "[if(parameters('ctrlDeployDataShare'), reference(resourceId('Microsoft.Resources/deployments', 'DataShareDeploy'), '2020-10-01').outputs.dataShareAccountID.value, '')]"
           },
@@ -1777,6 +1805,9 @@
           },
           "rawDataLakeAccountName": {
             "value": "[parameters('rawDataLakeAccountName')]"
+          },
+          "SampleLakeAccountName": {
+            "value": "[parameters('SampleLakeAccountName')]"
           },
           "resourceLocation": {
             "value": "[parameters('resourceLocation')]"
@@ -1829,10 +1860,16 @@
             "curatedDataLakeAccountName": {
               "type": "string"
             },
+            "SampleLakeAccountName": {
+              "type": "string"
+            },
             "rawDataLakeZoneContainerNames": {
               "type": "array"
             },
             "curatedDataLakeZoneContainerNames": {
+              "type": "array"
+            },
+            "SampleDataLakeZoneContainerNames": {
               "type": "array"
             },
             "synapseWorkspaceResourceID": {
@@ -1902,6 +1939,24 @@
                 "name": "Standard_GRS"
               }
             },
+            "type": "Microsoft.Storage/storageAccounts",
+              "apiVersion": "2021-02-01",
+              "name": "[parameters('SampleLakeAccountName')]",
+              "location": "[parameters('resourceLocation')]",
+              "properties": {
+                "isHnsEnabled": true,
+                "accessTier": "Hot",
+                "networkAcls": {
+                  "defaultAction": "[if(equals(parameters('networkIsolationMode'), 'vNet'), 'Deny', 'Allow')]",
+                  "bypass": "[if(and(parameters('ctrlDeployStreaming'), equals(parameters('ctrlStreamIngestionService'), 'eventhub')), 'AzureServices', 'None')]",
+                  "resourceAccessRules": "[variables('dataLakeresourceAccessRules')]"
+                }
+              },
+              "kind": "StorageV2",
+              "sku": {
+                "name": "Standard_GRS"
+              }
+            },
             {
               "type": "Microsoft.Storage/storageAccounts",
               "apiVersion": "2021-02-01",
@@ -1933,6 +1988,17 @@
                 "[resourceId('Microsoft.Storage/storageAccounts', parameters('rawDataLakeAccountName'))]"
               ]
             },
+            "copy": {
+                "name": "r_rawDataLakeZoneContainer",
+                "count": "[length(parameters('rawDataLakeZoneContainerNames'))]"
+              },
+              "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+              "apiVersion": "2021-02-01",
+              "name": "[format('{0}/default/{1}', parameters('rawDataLakeAccountName'), parameters('SampleDataLakeZoneContainerNames')[copyIndex()])]",
+              "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('SampleLakeAccountName'))]"
+              ]
+            },
             {
               "copy": {
                 "name": "r_curatedDataLakeZoneContainer",
@@ -1954,6 +2020,14 @@
             "rawDataLakeStorageAccountName": {
               "type": "string",
               "value": "[parameters('rawDataLakeAccountName')]"
+            },
+            "SampleDataLakeStorageAccountID": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.Storage/storageAccounts', parameters('SampleLakeAccountName'))]"
+            },
+            "SampleDataLakeStorageAccountName": {
+              "type": "string",
+              "value": "[parameters('SampleLakeAccountName')]"
             },
             "curatedDataLakeStorageAccountID": {
               "type": "string",
@@ -2160,11 +2234,17 @@
           "rawDataLakeAccountName": {
             "value": "[reference(resourceId('Microsoft.Resources/deployments', 'DataLakeDeploy')).outputs.rawDataLakeStorageAccountName.value]"
           },
+          "SampleLakeAccountName": {
+            "value": "[reference(resourceId('Microsoft.Resources/deployments', 'DataLakeDeploy')).outputs.SampleDataLakeStorageAccountName.value]"
+          },
           "curatedDataLakeZoneContainerNames": {
             "value": "[variables('curatedDataLakeZoneContainerNames')]"
           },
           "rawDataLakeZoneContainerNames": {
             "value": "[variables('rawDataLakeZoneContainerNames')]"
+          },
+          "SampleDataLakeZoneContainerNames": {
+            "value": "[variables('SampleDataLakeZoneContainerNames')]"
           },
           "eventHubName": {
             "value": "[parameters('eventHubName')]"
