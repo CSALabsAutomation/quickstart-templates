@@ -258,6 +258,14 @@
             ]
         },
         {
+            "type": "Microsoft.DataMigration/sqlMigrationServices",
+            "apiVersion": "2022-03-30-preview",
+            "name": "[parameters('DMSServiceName')]",
+            "location": "[parameters('location')]",
+            "tags": {},
+            "properties": {}
+        },
+        {
             "type": "Microsoft.Compute/virtualMachines",
             "name": "[variables('targetServerName')]",
             "apiVersion": "2019-12-01",
