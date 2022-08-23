@@ -164,6 +164,11 @@
                     "interface": "rest",
                     "definitionFilePath": "https://raw.githubusercontent.com/jchinchillaMSFT/ww-csu-psk-synapse-retail/main/linkedService/GithubFiles.json"
                 }
+                {
+                    "name": "azrawdatalakego2d3",
+                    "interface": "rest",
+                    "definitionFilePath": "https://raw.githubusercontent.com/jchinchillaMSFT/ww-csu-psk-synapse-retail/main/linkedService/azrawdatalakego2d3.json"
+                },
                 
             ],
             "dataflows":[
