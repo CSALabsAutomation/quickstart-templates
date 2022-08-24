@@ -130,21 +130,21 @@
     },
     "workspaceDataLakeAccountName": {
       "type": "string",
-      "defaultValue": "azwksdatalakego2d3",
+      "defaultValue": "[format('azwksdatalake{0}', parameters('uniqueSuffix'))]",
       "metadata": {
         "description": "Synapse Workspace Data Lake Storage Account Name"
       }
     },
     "rawDataLakeAccountName": {
       "type": "string",
-      "defaultValue": "azrawdatalakego2d3",
+      "defaultValue": "[format('azrawdatalake{0}', parameters('uniqueSuffix'))]",
       "metadata": {
         "description": "Synapse Workspace Data Lake Storage Account Name"
       }
     },
     "curatedDataLakeAccountName": {
       "type": "string",
-      "defaultValue": "azcurateddatalakego2d3",
+      "defaultValue": "[format('azcurateddatalake{0}', parameters('uniqueSuffix'))]",
       "metadata": {
         "description": "Synapse Workspace Data Lake Storage Account Name"
       }
@@ -193,7 +193,7 @@
     },
     "synapseWorkspaceName": {
       "type": "string",
-      "defaultValue": "azsynapsewksgo23",
+      "defaultValue": "[format('azsynapsewks{0}', parameters('uniqueSuffix'))]",
       "metadata": {
         "description": "Synapse Workspace Name"
       }
