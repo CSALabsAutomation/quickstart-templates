@@ -1957,8 +1957,7 @@
                 "name": "Standard_GRS"
               }
             },
-            {
-              "type": "Microsoft.Storage/storageAccounts",
+            "type": "Microsoft.Storage/storageAccounts",
               "apiVersion": "2021-02-01",
               "name": "[parameters('curatedDataLakeAccountName')]",
               "location": "[parameters('resourceLocation')]",
