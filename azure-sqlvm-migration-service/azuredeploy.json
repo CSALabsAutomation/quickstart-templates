@@ -9,6 +9,13 @@
                 "description": "Location where the resources will be deployed."
             }
         },
+        "resourcegroupname": {
+            "defaultValue": "[resourceGroup().Name]",
+            "type": "string",
+            "metadata": {
+                "description": "Name of resource group"
+            }
+        },
         "createPublicIP": {
             "defaultValue": true,
             "type": "bool",
@@ -91,12 +98,18 @@
         "sourceServerName": "[take(concat('Source', uniqueString(resourceGroup().id)), 15)]",
         "targetServerName": "[take(concat('Target', uniqueString(resourceGroup().id)), 15)]",
         "scriptLocation": "AddDatabaseToSqlServer.ps1",
+        "scriptLocationToUploadFile": "UploadBlobFile.ps1",
         "bakFileLocation": "AdventureWorksLT2019.bak",
         "scriptFiles": [
             "[uri(parameters('_artifactsLocation'), concat(variables('scriptLocation'), parameters('_artifactsLocationSasToken')))]",
             "[uri(parameters('_artifactsLocation'), concat(variables('bakFileLocation'), parameters('_artifactsLocationSasToken')))]"
         ],
+        "scriptFilesToUploadFile": [
+            "[uri(parameters('_artifactsLocation'), concat(variables('scriptLocationToUploadFile'), parameters('_artifactsLocationSasToken')))]",
+            "[uri(parameters('_artifactsLocation'), concat(variables('bakFileLocation'), parameters('_artifactsLocationSasToken')))]"
+        ],
         "scriptParameters": "[concat('-userName ', parameters('sourceWindowsAdminUserName'), ' -password \"', parameters('sourceWindowsAdminPassword'))]",
+        "scriptParametersToUploadFile": "['-Resourcegroupname ', parameters('resourcegroupname')]",
         "storageAccountNamePrefix": "storage",
         "storageAccountName": "[toLower(concat(variables('storageAccountNamePrefix'), uniqueString(resourceGroup().id)))]",
         "sourceNicName": "[take(concat('SourceNIC', uniqueString(resourceGroup().id)), 15)]",
@@ -252,6 +265,27 @@
                         },
                         "protectedSettings": {
                             "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', './', variables('scriptLocation'), ' ', variables('scriptParameters'))]"
+                        }
+                    }
+                },
+                {
+                    "apiVersion": "2019-12-01",
+                    "type": "extensions",
+                    "name": "CustomScriptExtensionToUploadFile",
+                    "location": "[parameters('location')]",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('sourceServerName'), 'CustomScriptExtension')]"
+                    ],
+                    "properties": {
+                        "publisher": "Microsoft.Compute",
+                        "type": "CustomScriptExtensionToUploadFile",
+                        "typeHandlerVersion": "1.9",
+                        "autoUpgradeMinorVersion": true,
+                        "settings": {
+                            "fileUris": "[variables('scriptFilesToUploadFile')]"
+                        },
+                        "protectedSettings": {
+                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', './', variables('scriptLocationToUploadFile'), ' ', variables('scriptParametersToUploadFile'))]"
                         }
                     }
                 }
