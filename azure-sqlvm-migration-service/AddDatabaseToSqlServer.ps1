@@ -57,7 +57,7 @@ foreach ($nextBackupFile in $fileList)
     $relocateFilesForoffline += New-Object `
         Microsoft.SqlServer.Management.Smo.RelocateFile( `
             $nextBackupFile.LogicalName,
-            "$env:Web\$($nextBackupFileName)");
+            "F:\Data\$($nextBackupFileName)");
 }
 
 $securePassword = ConvertTo-SecureString $password -AsPlainText -Force
