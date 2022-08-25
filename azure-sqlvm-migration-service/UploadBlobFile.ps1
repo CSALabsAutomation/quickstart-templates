@@ -12,7 +12,7 @@ if ((Get-Module -ListAvailable Az.Accounts) -eq $null)
     }
 
 $storageaccount = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
-$storageaccountkey = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $storageaccount.StorageAccountName;
+$storageaccountkey = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $storageaccount.StorageAccountName[1];
 
 $ctx = New-AzStorageContext -StorageAccountName $storageaccount.StorageAccountName -StorageAccountKey $storageaccountkey.Value[0]
 
