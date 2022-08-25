@@ -274,6 +274,8 @@
                     "name": "CustomScriptExtensionToUploadFile",
                     "location": "[parameters('location')]",
                     "dependsOn": [
+                        "[resourceId('Microsoft.Compute/virtualMachines/', variables('sourceServerName'))]",
+                        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('sourceServerName'), 'SqlIaasExtension')]",
                         "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('sourceServerName'), 'CustomScriptExtension')]"
                     ],
                     "properties": {
