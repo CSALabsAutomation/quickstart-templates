@@ -102,7 +102,7 @@
     },
     "variables": {
         "contributorRoleDefinitionId":"B24988ac-6180-42a0-ab88-20f7382dd24c",
-        "bootstrapRoleAssignmentId":"11111111-1111-1111-1111-111111111111",
+        "bootstrapRoleAssignmentId":"[uniqueString(resourceGroup().id)]",
         "DMSServiceName": "[concat('DMS', uniqueString(resourceGroup().id))]",
         "sourceServerName": "[take(concat('Source', uniqueString(resourceGroup().id)), 15)]",
         "targetServerName": "[take(concat('Target', uniqueString(resourceGroup().id)), 15)]",
