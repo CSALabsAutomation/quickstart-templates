@@ -354,7 +354,7 @@
                             "fileUris": "[variables('scriptFilesToUploadFile')]"
                         },
                         "protectedSettings": {
-                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', './', variables('scriptLocationToUploadFile'), ' ', variables('scriptParametersToUploadFile'))]"
+                            "commandToExecute": "[concat('powershell -ExecutionPolicy bypass -File ', './', variables('scriptLocationToUploadFile'), ' ', variables('scriptParametersToUploadFile'))]"
                         }
                     }
                 }
