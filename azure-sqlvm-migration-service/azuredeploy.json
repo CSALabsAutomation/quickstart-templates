@@ -16,6 +16,13 @@
                 "description": "Name of resource group"
             }
         },
+        "uniqueSuffix": {
+            "type": "string",
+            "defaultValue": "[substring(uniqueString(resourceGroup().id), 0, 6)]",
+            "metadata": {
+              "description": "Unique Suffix"
+            }
+        },
         "firstuniquestring": {
             "type": "string",
             "defaultValue": "[format('firstunique{0}', parameters('uniqueSuffix'))]",
