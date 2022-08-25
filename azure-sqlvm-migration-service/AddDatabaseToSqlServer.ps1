@@ -38,6 +38,7 @@ $fileList = Invoke-Sqlcmd `
 
 # Create move records for each file in the backup
 $relocateFiles = @();
+$relocateFilesForoffline = @();
 
 foreach ($nextBackupFile in $fileList)
 {
@@ -47,6 +48,16 @@ foreach ($nextBackupFile in $fileList)
         Microsoft.SqlServer.Management.Smo.RelocateFile( `
             $nextBackupFile.LogicalName,
             "$env:temp\$($nextBackupFileName)");
+}
+
+foreach ($nextBackupFile in $fileList)
+{
+    # Move the file to the default data directory of the default instance
+    $nextBackupFileName = Split-Path -Path ($nextBackupFile.PhysicalName) -Leaf;
+    $relocateFilesForoffline += New-Object `
+        Microsoft.SqlServer.Management.Smo.RelocateFile( `
+            $nextBackupFile.LogicalName,
+            "$env:Web\$($nextBackupFileName)");
 }
 
 $securePassword = ConvertTo-SecureString $password -AsPlainText -Force
@@ -63,5 +74,5 @@ Restore-SqlDatabase `
 	-ServerInstance . `
 	-Database "SampleDatabaseForOffline" `
 	-BackupFile "$pwd\AdventureWorksLT2019.bak" `
-	-RelocateFile $relocateFiles `
+	-RelocateFile $relocateFilesForoffline `
 	-Credential $credentials;
