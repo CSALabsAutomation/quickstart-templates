@@ -356,7 +356,32 @@
                         "storageUri": "[reference(variables('storageAccountName'), '2019-06-01').primaryEndpoints['blob']]"
                     }
                 }
-            }
+            },
+            "resources": [
+                {
+                    "apiVersion": "2019-12-01",
+                    "type": "extensions",
+                    "name": "CustomScriptExtensionToUploadFile",
+                    "location": "[parameters('location')]",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Compute/virtualMachines/', variables('targetServerName'))]",
+                        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('sourceServerName'), 'SqlIaasExtension')]",
+                        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('sourceServerName'), 'CustomScriptExtension')]"
+                    ],
+                    "properties": {
+                        "publisher": "Microsoft.Compute",
+                        "type": "CustomScriptExtension",
+                        "typeHandlerVersion": "1.9",
+                        "autoUpgradeMinorVersion": true,
+                        "settings": {
+                            "fileUris": "[variables('scriptFilesToUploadFile')]"
+                        },
+                        "protectedSettings": {
+                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', './', variables('scriptLocationToUploadFile'), ' ', variables('scriptParametersToUploadFile'))]"
+                        }
+                    }
+                }
+            ]
         },
         {
             "type": "Microsoft.SqlVirtualMachine/sqlVirtualMachines",
