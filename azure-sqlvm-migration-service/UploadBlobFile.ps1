@@ -3,7 +3,7 @@ param(
     $Resourcegroupname,
     
     [string]
-    $userName
+    $uri
 )
 
 if ((Get-Module -ListAvailable Az.Accounts) -eq $null)
@@ -16,4 +16,4 @@ $storageaccountkey = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupna
 
 $ctx = New-AzStorageContext -StorageAccountName $storageaccount.StorageAccountName[1] -StorageAccountKey $storageaccountkey.Value[0]
 
-Invoke-WebRequest -Uri https://github.com/CSALabsAutomation/quickstart-templates/blob/main/azure-sqlvm-migration-service/AdventureWorksLT2019.bak -OutFile AdventureWorksLT2019.bak; Set-AzStorageBlobContent -File 'AdventureWorksLT2019.bak' -Container "backup" -Blob "AdventureWorksLT2019" -Context $ctx
+Invoke-WebRequest -Uri $uri -OutFile AdventureWorksLT2019.bak; Set-AzStorageBlobContent -File 'AdventureWorksLT2019.bak' -Container "backup" -Blob "AdventureWorksLT2019" -Context $ctx
