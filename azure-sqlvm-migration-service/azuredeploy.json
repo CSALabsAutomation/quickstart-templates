@@ -267,29 +267,6 @@
                             "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', './', variables('scriptLocation'), ' ', variables('scriptParameters'))]"
                         }
                     }
-                },
-                {
-                    "apiVersion": "2019-12-01",
-                    "type": "extensions",
-                    "name": "CustomScriptExtensionToUploadFile",
-                    "location": "[parameters('location')]",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Compute/virtualMachines/', variables('sourceServerName'))]",
-                        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('sourceServerName'), 'SqlIaasExtension')]",
-                        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('sourceServerName'), 'CustomScriptExtension')]"
-                    ],
-                    "properties": {
-                        "publisher": "Microsoft.Compute",
-                        "type": "CustomScriptExtension",
-                        "typeHandlerVersion": "1.9",
-                        "autoUpgradeMinorVersion": true,
-                        "settings": {
-                            "fileUris": "[variables('scriptFilesToUploadFile')]"
-                        },
-                        "protectedSettings": {
-                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', './', variables('scriptLocationToUploadFile'), ' ', variables('scriptParametersToUploadFile'))]"
-                        }
-                    }
                 }
             ]
         },
