@@ -762,7 +762,7 @@
         {
             "type": "Microsoft.Authorization/roleAssignments",
             "apiVersion": "2018-09-01-preview",
-            "name": "PostDeploymentScriptroleAssignmentName",
+            "name": "11111111-1111-1111-1111-111111111111",
             "dependsOn": [
                 "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', 'PostDeploymentScriptuserAssignedName')]"
             ],
