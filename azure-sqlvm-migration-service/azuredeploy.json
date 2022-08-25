@@ -52,36 +52,42 @@
             }
         },
         "sourceWindowsAdminUserName": {
+            "defaultValue": "sqladmin",
             "type": "string",
             "metadata": {
                 "description": "Windows Authentication user name for the source server"
             }
         },
         "sourceWindowsAdminPassword": {
+            "defaultValue": "Password@123",
             "type": "securestring",
             "metadata": {
                 "description": "Windows Authentication password for the source server"
             }
         },
         "sourceSqlAuthenticationPassword": {
+            "defaultValue": "Password@123",
             "type": "securestring",
             "metadata": {
                 "description": "Sql Authentication password for the source server (User name will be same as Windows Auth)"
             }
         },
         "targetWindowsAdminUserName": {
+            "defaultValue": "sqladmin",
             "type": "string",
             "metadata": {
                 "description": "Windows Authentication user name for the source server"
             }
         },
         "targetWindowsAdminPassword": {
+            "defaultValue": "Password@123",
             "type": "securestring",
             "metadata": {
                 "description": "Windows Authentication password for the source server"
             }
         },
         "targetSqlAuthenticationPassword": {
+            "defaultValue": "Password@123",
             "type": "securestring",
             "metadata": {
                 "description": "Sql Authentication password for the source server (User name will be same as Windows Auth)"
@@ -106,6 +112,20 @@
             "type": "array",
             "defaultValue": [0]
         },
+        "fileuploaduri": {
+            "type": "string",
+            "metadata": {
+                "description": "The URI of script file to upload blob container"
+            },
+            "defaultValue": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-sqlvm-migration-service/UploadBlobFile.ps1"
+        },
+        "bakpakuri": {
+            "type": "string",
+            "metadata": {
+                "description": "The URI of bakpakfile"
+            },
+            "defaultValue": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-sqlvm-migration-service/UploadBlobFile.ps1"
+        },
         "_artifactsLocation": {
             "type": "string",
             "metadata": {
@@ -122,6 +142,7 @@
         }
     },
     "variables": {
+        "fileuploadurivariable" : "[parameters('fileuploaduri')]",
         "bootstrapRoleAssignmentId": "[guid(parameters('firstuniquestring'), parameters('seconduniquestring'))]",
         "contributorRoleDefinitionId":"B24988ac-6180-42a0-ab88-20f7382dd24c",
         "DMSServiceName": "[concat('DMS', uniqueString(resourceGroup().id))]",
@@ -139,7 +160,7 @@
             "[uri(parameters('_artifactsLocation'), concat(variables('bakFileLocation'), parameters('_artifactsLocationSasToken')))]"
         ],
         "scriptParameters": "[concat('-userName ', parameters('sourceWindowsAdminUserName'), ' -password \"', parameters('sourceWindowsAdminPassword'))]",
-        "scriptParametersToUploadFile": "[concat('-Resourcegroupname ', parameters('resourcegroupname'), ' -userName \"', parameters('sourceWindowsAdminUserName'))]",
+        "scriptParametersToUploadFile": "[concat('-Resourcegroupname ', parameters('resourcegroupname'), ' -uri \"', parameters('bakpakuri'))]",
         "storageAccountNamePrefix": "storage",
         "storageAccountName": "[toLower(concat(variables('storageAccountNamePrefix'), uniqueString(resourceGroup().id)))]",
         "sourceNicName": "[take(concat('SourceNIC', uniqueString(resourceGroup().id)), 15)]",
@@ -773,7 +794,7 @@
                 "retentionInterval": "P1D",
                 "timeout": "PT30M",
                 "arguments": "[variables('scriptParametersToUploadFile')]",
-                "primaryScriptUri": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-sqlvm-migration-service/UploadBlobFile.ps1"
+                "primaryScriptUri": "[variables('fileuploadurivariable')]"
                 
             }
         },
