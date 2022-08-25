@@ -769,7 +769,7 @@
                 "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('identityName'))]"
             ],
             "properties": {
-                "roleDefinitionId": "B24988ac-6180-42a0-ab88-20f7382dd24c",
+                "roleDefinitionId": resourceId('Microsoft.Authorization/roleDefinitions', 'B24988ac-6180-42a0-ab88-20f7382dd24c'),
                 "principalId": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('identityName')), '2018-11-30').principalId]",
                 "scope": "[resourceGroup().id]",
                 "principalType": "ServicePrincipal"
