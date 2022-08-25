@@ -16,6 +16,13 @@
                 "description": "Name of resource group"
             }
         },
+        "identityName": {
+            "defaultValue": "PostDeploymentScriptuserAssignedName",
+            "type": "string",
+            "metadata": {
+                "description": "Name of identity"
+            }
+        },
         "createPublicIP": {
             "defaultValue": true,
             "type": "bool",
@@ -333,32 +340,7 @@
                         "storageUri": "[reference(variables('storageAccountName'), '2019-06-01').primaryEndpoints['blob']]"
                     }
                 }
-            },
-            "resources": [
-                {
-                    "apiVersion": "2019-12-01",
-                    "type": "extensions",
-                    "name": "CustomScriptExtensionToUploadFile",
-                    "location": "[parameters('location')]",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Compute/virtualMachines/', variables('targetServerName'))]",
-                        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('sourceServerName'), 'SqlIaasExtension')]",
-                        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('sourceServerName'), 'CustomScriptExtension')]"
-                    ],
-                    "properties": {
-                        "publisher": "Microsoft.Compute",
-                        "type": "CustomScriptExtension",
-                        "typeHandlerVersion": "1.9",
-                        "autoUpgradeMinorVersion": true,
-                        "settings": {
-                            "fileUris": "[variables('scriptFilesToUploadFile')]"
-                        },
-                        "protectedSettings": {
-                            "commandToExecute": "[concat('powershell -ExecutionPolicy bypass -File ', './', variables('scriptLocationToUploadFile'), ' ', variables('scriptParametersToUploadFile'))]"
-                        }
-                    }
-                }
-            ]
+            }
         },
         {
             "type": "Microsoft.SqlVirtualMachine/sqlVirtualMachines",
@@ -745,6 +727,51 @@
                     }
                 }
             ]
+        },
+        {
+            "type": "Microsoft.Resources/deploymentScripts",
+            "apiVersion": "2020-10-01",
+            "name": "PostDeploymentScriptForBackupUpload",
+            "location": "[resourceGroup().location]",
+            "kind": "AzurePowerShell",
+            "identity": {
+                "type": "UserAssigned",
+                "userAssignedIdentities": {
+                    "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('identityName'))]": {}
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('identityName'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices/containers', variables('storageAccountName'), 'default', 'backup')]"
+            ],
+            "properties": {
+                "azPowerShellVersion": "7.2.4",
+                "cleanupPreference": "OnSuccess",
+                "retentionInterval": "P1D",
+                "timeout": "PT30M",
+                "arguments": "[variables('scriptParametersToUploadFile')]",
+                "primaryScriptUri": "[variables('scriptLocationToUploadFile')]"
+            }
+        },
+        {
+            "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
+            "apiVersion": "2018-11-30",
+            "name": "PostDeploymentScriptuserAssignedName",
+            "location": "[resourceGroup().location]"
+        },
+        {
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2018-09-01-preview",
+            "name": "PostDeploymentScriptroleAssignmentName",
+            "dependsOn": [
+                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', 'PostDeploymentScriptuserAssignedName')]"
+            ],
+            "properties": {
+                "roleDefinitionId": "B24988ac-6180-42a0-ab88-20f7382dd24c",
+                "principalId": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', 'PostDeploymentScriptuserAssignedName'), '2018-11-30').principalId]",
+                "scope": "[resourceGroup().id]",
+                "principalType": "ServicePrincipal"
+            }
         },
         {
             "type": "Microsoft.Storage/storageAccounts",
