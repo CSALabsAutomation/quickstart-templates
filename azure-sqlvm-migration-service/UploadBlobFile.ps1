@@ -16,4 +16,4 @@ $storageaccountkey = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupna
 
 $ctx = New-AzStorageContext -StorageAccountName $storageaccount.StorageAccountName[1] -StorageAccountKey $storageaccountkey.Value[0]
 
-Set-AzStorageBlobContent -File $pwd\AdventureWorksLT2019.bak -Container "backup" -Blob "AdventureWorksLT2019" -Context $ctx
+Set-AzStorageBlobContent -File 'AdventureWorksLT2019.bak' -Container "backup" -Blob "AdventureWorksLT2019" -Context $ctx
