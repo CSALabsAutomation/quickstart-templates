@@ -109,7 +109,7 @@
             "[uri(parameters('_artifactsLocation'), concat(variables('bakFileLocation'), parameters('_artifactsLocationSasToken')))]"
         ],
         "scriptParameters": "[concat('-userName ', parameters('sourceWindowsAdminUserName'), ' -password \"', parameters('sourceWindowsAdminPassword'))]",
-        "scriptParametersToUploadFile": "['-Resourcegroupname ', parameters('resourcegroupname')]",
+        "scriptParametersToUploadFile": "[concat('-Resourcegroupname ', parameters('resourcegroupname'), ' -userName \"', parameters('sourceWindowsAdminUserName'))]",
         "storageAccountNamePrefix": "storage",
         "storageAccountName": "[toLower(concat(variables('storageAccountNamePrefix'), uniqueString(resourceGroup().id)))]",
         "sourceNicName": "[take(concat('SourceNIC', uniqueString(resourceGroup().id)), 15)]",
