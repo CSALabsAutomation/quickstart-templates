@@ -16,6 +16,14 @@
                 "description": "Name of resource group"
             }
         },
+        "_CurrentDateTimeInTicks": {
+            "type": "string",
+            "minLength": 18,
+            "maxLength": 18,
+            "metadata": {
+              "description": "the current datetime in ticks. this is used to generate a unique string for every deployment"
+            }
+        },
         "identityName": {
             "defaultValue": "PostDeploymentScriptuserAssignedName",
             "type": "string",
@@ -101,8 +109,8 @@
         }
     },
     "variables": {
+        "bootstrapRoleAssignmentId": "[uniqueString(deployment().name, parameters('_CurrentDateTimeInTicks'))]",
         "contributorRoleDefinitionId":"B24988ac-6180-42a0-ab88-20f7382dd24c",
-        "bootstrapRoleAssignmentId":"[uniqueString(resourceGroup().id)]",
         "DMSServiceName": "[concat('DMS', uniqueString(resourceGroup().id))]",
         "sourceServerName": "[take(concat('Source', uniqueString(resourceGroup().id)), 15)]",
         "targetServerName": "[take(concat('Target', uniqueString(resourceGroup().id)), 15)]",
@@ -765,7 +773,7 @@
         {
             "type": "Microsoft.Authorization/roleAssignments",
             "apiVersion": "2018-09-01-preview",
-            "name": "[variables('bootstrapRoleAssignmentId')]",
+            "name": "[guid('AzureAutomationJobName', variables('bootstrapRoleAssignmentId'))]",
             "dependsOn": [
                 "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('identityName'))]"
             ],
