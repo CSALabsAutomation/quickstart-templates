@@ -1,6 +1,9 @@
 param(
     [string]
-    $Resourcegroupname
+    $Resourcegroupname,
+    
+    [string]
+    $userName
 )
 
 if ((Get-Module -ListAvailable Az.Accounts) -eq $null)
