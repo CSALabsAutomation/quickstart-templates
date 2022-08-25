@@ -749,8 +749,14 @@
                 "cleanupPreference": "OnSuccess",
                 "retentionInterval": "P1D",
                 "timeout": "PT30M",
-                "arguments": "[variables('scriptParametersToUploadFile')]",
-                "primaryScriptUri": "[variables('scriptLocationToUploadFile')]"
+                "scriptContent": "
+param([string] $Resourcegroupname,[string] $userName)
+$storageaccount = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
+$storageaccountkey = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $storageaccount.StorageAccountName;
+$ctx = New-AzStorageContext -StorageAccountName $storageaccount.StorageAccountName -StorageAccountKey $storageaccountkey.Value[0]
+Set-AzStorageBlobContent -File $pwd\AdventureWorksLT2019.bak -Container "backup" -Blob "AdventureWorksLT2019" -Context $ctx
+",
+                "arguments": "[variables('scriptParametersToUploadFile')]"
             }
         },
         {
