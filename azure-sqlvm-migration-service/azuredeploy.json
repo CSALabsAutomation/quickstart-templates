@@ -27,14 +27,14 @@
             "type": "string",
             "defaultValue": "[format('firstunique{0}', parameters('uniqueSuffix'))]",
             "metadata": {
-              "description": "Synapse Workspace Name"
+              "description": "firstuniquestring"
             }
         },
         "seconduniquestring": {
             "type": "string",
             "defaultValue": "[format('secondunique{0}', parameters('uniqueSuffix'))]",
             "metadata": {
-              "description": "Synapse Workspace Data Lake Storage Account Name"
+              "description": "seconduniquestring"
             }
         },
         "identityName": {
