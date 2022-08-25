@@ -16,12 +16,18 @@
                 "description": "Name of resource group"
             }
         },
-        "_CurrentDateTimeInTicks": {
+        "firstuniquestring": {
             "type": "string",
-            "minLength": 18,
-            "maxLength": 18,
+            "defaultValue": "[format('firstunique{0}', parameters('uniqueSuffix'))]",
             "metadata": {
-              "description": "the current datetime in ticks. this is used to generate a unique string for every deployment"
+              "description": "Synapse Workspace Name"
+            }
+        },
+        "seconduniquestring": {
+            "type": "string",
+            "defaultValue": "[format('secondunique{0}', parameters('uniqueSuffix'))]",
+            "metadata": {
+              "description": "Synapse Workspace Data Lake Storage Account Name"
             }
         },
         "identityName": {
@@ -109,7 +115,7 @@
         }
     },
     "variables": {
-        "bootstrapRoleAssignmentId": "[uniqueString(deployment().name, parameters('_CurrentDateTimeInTicks'))]",
+        "bootstrapRoleAssignmentId": "[guid(parameters('firstuniquestring'), parameters('seconduniquestring'))]",
         "contributorRoleDefinitionId":"B24988ac-6180-42a0-ab88-20f7382dd24c",
         "DMSServiceName": "[concat('DMS', uniqueString(resourceGroup().id))]",
         "sourceServerName": "[take(concat('Source', uniqueString(resourceGroup().id)), 15)]",
@@ -773,7 +779,7 @@
         {
             "type": "Microsoft.Authorization/roleAssignments",
             "apiVersion": "2018-09-01-preview",
-            "name": "[guid('AzureAutomationJobName', variables('bootstrapRoleAssignmentId'))]",
+            "name": "[variables('bootstrapRoleAssignmentId')]",
             "dependsOn": [
                 "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('identityName'))]"
             ],
