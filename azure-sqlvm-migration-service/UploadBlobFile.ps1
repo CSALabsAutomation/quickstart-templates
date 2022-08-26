@@ -17,5 +17,5 @@ $storageaccountkey = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupna
 
 $ctx = New-AzStorageContext -StorageAccountName $storageaccount.StorageAccountName[1] -StorageAccountKey $storageaccountkey.Value[0]
 
-Invoke-WebRequest -Uri $uri -OutFile '$bacpacFileName'
+Invoke-WebRequest -Uri $uri -OutFile './mnt/azscripts/azscriptinput/$bacpacFileName'
 Set-AzStorageBlobContent -File $bacpacFileName -Container "backup" -Blob "AdventureWorksLT2019" -Context $ctx
