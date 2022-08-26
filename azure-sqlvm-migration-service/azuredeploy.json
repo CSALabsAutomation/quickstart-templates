@@ -431,7 +431,8 @@
             "location": "[parameters('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('adVNet'), variables('defaultSubnetName'))]",
-                "[resourceId('Microsoft.Network/publicIpAddresses', variables('publicIPSourceServer'))]"
+                "[resourceId('Microsoft.Network/publicIpAddresses', variables('publicIPSourceServer'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('sourceServerNSG'))]"
             ],
             "properties": {
                 "ipConfigurations": [
@@ -449,7 +450,10 @@
                     }
                 ],
                 "enableAcceleratedNetworking": false,
-                "enableIPForwarding": false
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('sourceServerNSG'))]"
+                }
             }
         },
         {
@@ -459,7 +463,8 @@
             "location": "[parameters('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('adVNettarget'), variables('defaultSubnetName'))]",
-                "[resourceId('Microsoft.Network/publicIpAddresses', variables('publicIPTargetServer'))]"
+                "[resourceId('Microsoft.Network/publicIpAddresses', variables('publicIPTargetServer'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('targetServerNSG'))]"
             ],
             "properties": {
                 "ipConfigurations": [
@@ -477,7 +482,10 @@
                     }
                 ],
                 "enableAcceleratedNetworking": false,
-                "enableIPForwarding": false
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('targetServerNSG'))]"
+                }
             }
         },
         {
@@ -486,89 +494,33 @@
             "apiVersion": "2020-05-01",
             "location": "[parameters('location')]",
             "properties": {
-                "defaultSecurityRules": [
+                "securityRules": [
                     {
-                        "name": "AllowVnetInBound",
+                        "name": "AllowSQLServerInBound",
                         "properties": {
-                            "description": "Allow inbound traffic from all VMs in VNET",
-                            "protocol": "*",
+                            "description": "Allow inbound SQL Server Traffic",
+                            "protocol": "Tcp",
                             "sourcePortRange": "*",
-                            "destinationPortRange": "*",
-                            "sourceAddressPrefix": "VirtualNetwork",
-                            "destinationAddressPrefix": "VirtualNetwork",
+                            "destinationPortRange": "1433",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
                             "access": "Allow",
-                            "priority": 65000,
+                            "priority": 100,
                             "direction": "Inbound"
                         }
                     },
                     {
-                        "name": "AllowAzureLoadBalancerInBound",
+                        "name": "AllowAnyRDPInbound",
                         "properties": {
-                            "description": "Allow inbound traffic from azure load balancer",
-                            "protocol": "*",
+                            "description": "Allow virtual machine connection through rdp",
+                            "protocol": "TCP",
                             "sourcePortRange": "*",
-                            "destinationPortRange": "*",
-                            "sourceAddressPrefix": "AzureLoadBalancer",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "*",
                             "destinationAddressPrefix": "*",
                             "access": "Allow",
-                            "priority": 65001,
+                            "priority": 110,
                             "direction": "Inbound"
-                        }
-                    },
-                    {
-                        "name": "DenyAllInBound",
-                        "properties": {
-                            "description": "Deny all inbound traffic",
-                            "protocol": "*",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "*",
-                            "sourceAddressPrefix": "*",
-                            "destinationAddressPrefix": "*",
-                            "access": "Deny",
-                            "priority": 65500,
-                            "direction": "Inbound"
-                        }
-                    },
-                    {
-                        "name": "AllowVnetOutBound",
-                        "properties": {
-                            "description": "Allow outbound traffic from all VMs to all VMs in VNET",
-                            "protocol": "*",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "*",
-                            "sourceAddressPrefix": "VirtualNetwork",
-                            "destinationAddressPrefix": "VirtualNetwork",
-                            "access": "Allow",
-                            "priority": 65000,
-                            "direction": "Outbound"
-                        }
-                    },
-                    {
-                        "name": "AllowInternetOutBound",
-                        "properties": {
-                            "description": "Allow outbound traffic from all VMs to Internet",
-                            "protocol": "*",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "*",
-                            "sourceAddressPrefix": "*",
-                            "destinationAddressPrefix": "Internet",
-                            "access": "Allow",
-                            "priority": 65001,
-                            "direction": "Outbound"
-                        }
-                    },
-                    {
-                        "name": "DenyAllOutBound",
-                        "properties": {
-                            "description": "Deny all outbound traffic",
-                            "protocol": "*",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "*",
-                            "sourceAddressPrefix": "*",
-                            "destinationAddressPrefix": "*",
-                            "access": "Deny",
-                            "priority": 65500,
-                            "direction": "Outbound"
                         }
                     }
                 ]
@@ -580,89 +532,33 @@
             "apiVersion": "2020-05-01",
             "location": "[parameters('location')]",
             "properties": {
-                "defaultSecurityRules": [
+                "securityRules": [
                     {
-                        "name": "AllowVnetInBound",
+                        "name": "AllowSQLServerInBound",
                         "properties": {
-                            "description": "Allow inbound traffic from all VMs in VNET",
-                            "protocol": "*",
+                            "description": "Allow inbound SQL Server Traffic",
+                            "protocol": "Tcp",
                             "sourcePortRange": "*",
-                            "destinationPortRange": "*",
-                            "sourceAddressPrefix": "VirtualNetwork",
-                            "destinationAddressPrefix": "VirtualNetwork",
+                            "destinationPortRange": "1433",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
                             "access": "Allow",
-                            "priority": 65000,
+                            "priority": 100,
                             "direction": "Inbound"
                         }
                     },
                     {
-                        "name": "AllowAzureLoadBalancerInBound",
+                        "name": "AllowAnyRDPInbound",
                         "properties": {
-                            "description": "Allow inbound traffic from azure load balancer",
-                            "protocol": "*",
+                            "description": "Allow virtual machine connection through rdp",
+                            "protocol": "TCP",
                             "sourcePortRange": "*",
-                            "destinationPortRange": "*",
-                            "sourceAddressPrefix": "AzureLoadBalancer",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "*",
                             "destinationAddressPrefix": "*",
                             "access": "Allow",
-                            "priority": 65001,
+                            "priority": 110,
                             "direction": "Inbound"
-                        }
-                    },
-                    {
-                        "name": "DenyAllInBound",
-                        "properties": {
-                            "description": "Deny all inbound traffic",
-                            "protocol": "*",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "*",
-                            "sourceAddressPrefix": "*",
-                            "destinationAddressPrefix": "*",
-                            "access": "Deny",
-                            "priority": 65500,
-                            "direction": "Inbound"
-                        }
-                    },
-                    {
-                        "name": "AllowVnetOutBound",
-                        "properties": {
-                            "description": "Allow outbound traffic from all VMs to all VMs in VNET",
-                            "protocol": "*",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "*",
-                            "sourceAddressPrefix": "VirtualNetwork",
-                            "destinationAddressPrefix": "VirtualNetwork",
-                            "access": "Allow",
-                            "priority": 65000,
-                            "direction": "Outbound"
-                        }
-                    },
-                    {
-                        "name": "AllowInternetOutBound",
-                        "properties": {
-                            "description": "Allow outbound traffic from all VMs to Internet",
-                            "protocol": "*",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "*",
-                            "sourceAddressPrefix": "*",
-                            "destinationAddressPrefix": "Internet",
-                            "access": "Allow",
-                            "priority": 65001,
-                            "direction": "Outbound"
-                        }
-                    },
-                    {
-                        "name": "DenyAllOutBound",
-                        "properties": {
-                            "description": "Deny all outbound traffic",
-                            "protocol": "*",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "*",
-                            "sourceAddressPrefix": "*",
-                            "destinationAddressPrefix": "*",
-                            "access": "Deny",
-                            "priority": 65500,
-                            "direction": "Outbound"
                         }
                     }
                 ]
