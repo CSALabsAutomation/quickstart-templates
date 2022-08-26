@@ -431,7 +431,8 @@
             "location": "[parameters('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('adVNet'), variables('defaultSubnetName'))]",
-                "[resourceId('Microsoft.Network/publicIpAddresses', variables('publicIPSourceServer'))]"
+                "[resourceId('Microsoft.Network/publicIpAddresses', variables('publicIPSourceServer'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('sourceServerNSG'))]"
             ],
             "properties": {
                 "ipConfigurations": [
@@ -449,7 +450,10 @@
                     }
                 ],
                 "enableAcceleratedNetworking": false,
-                "enableIPForwarding": false
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('sourceServerNSG'))]"
+                }
             }
         },
         {
@@ -459,7 +463,8 @@
             "location": "[parameters('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('adVNettarget'), variables('defaultSubnetName'))]",
-                "[resourceId('Microsoft.Network/publicIpAddresses', variables('publicIPTargetServer'))]"
+                "[resourceId('Microsoft.Network/publicIpAddresses', variables('publicIPTargetServer'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('targetServerNSG'))]"
             ],
             "properties": {
                 "ipConfigurations": [
@@ -477,7 +482,10 @@
                     }
                 ],
                 "enableAcceleratedNetworking": false,
-                "enableIPForwarding": false
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('targetServerNSG'))]"
+                }
             }
         },
         {
