@@ -313,11 +313,7 @@ function Save-SynapseSampleArtifacts{
 	{
        Install-Module -Name Az.Accounts -Force
     }
-Write-Host ""$Resourcegroupname"" 
-Write-Host $Resourcegroupname
-Write-Host ""$WorkspaceDataLakeAccountName""
-#$Resourcegroupname = "ayush-e2e-cslabs-test05";
-#$StorageAccountName = "aksdatalakeaccount2";
+
 $uri = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Geography.csv";
 $bacpacFileName = "Geography.csv";
 #$storageaccount = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
@@ -327,6 +323,19 @@ $ctx = New-AzStorageContext -StorageAccountName $WorkspaceDataLakeAccountName -S
 
 Invoke-WebRequest -Uri $uri -OutFile $bacpacFileName 
 Set-AzStorageBlobContent -File $bacpacFileName -Container "sandpit" -Blob 'Geography.csv' -Context $ctx
+
+$uri = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Date.csv";
+$bacpacFileName = "Date.csv";
+#$storageaccount = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
+$storageaccountkey = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $WorkspaceDataLakeAccountName;
+
+$ctx = New-AzStorageContext -StorageAccountName $WorkspaceDataLakeAccountName -StorageAccountKey $storageaccountkey.Value[0]
+
+Invoke-WebRequest -Uri $uri -OutFile $bacpacFileName 
+Set-AzStorageBlobContent -File $bacpacFileName -Container "sandpit" -Blob 'Date.csv' -Context $ctx
+
+
+Write-Host "copying CSV files Completed." 
 }
 
 #------------------------------------------------------------------------------------------------------------
