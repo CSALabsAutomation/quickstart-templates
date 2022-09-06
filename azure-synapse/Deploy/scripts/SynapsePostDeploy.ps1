@@ -325,7 +325,7 @@ $storageaccountkey = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupna
 $ctx = New-AzStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $storageaccountkey.Value[0]
 
 Invoke-WebRequest -Uri $uri -OutFile $bacpacFileName 
-Set-AzStorageBlobContent -File $bacpacFileName -Container "sandpit" -Blob 'Geography' -Context $ctx
+Set-AzStorageBlobContent -File $bacpacFileName -Container "sandpit" -Blob 'Geography.csv' -Context $ctx
 }
 
 #------------------------------------------------------------------------------------------------------------
