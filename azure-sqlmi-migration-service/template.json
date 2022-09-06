@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "managedInstanceName": {
-            "defaultValue": "azuresqlmi",
+            "defaultValue": "mi",
             "type": "string",
             "metadata": {
               "description": "Enter managed instance name."
@@ -136,6 +136,7 @@
     },
     "variables": {
         "sourceServerName": "[take(concat('Source', uniqueString(resourceGroup().id)), 15)]",
+        "managedInstanceName": "[take(concat('sqlmi', uniqueString(resourceGroup().id)), 15)]",
         "scriptLocation": "AddDatabaseToSqlServer.ps1",
         "bakFileLocation": "AdventureWorksLT2019.bak",
         "bakFileUri": "[uri(parameters('_artifactsLocation'), concat(variables('bakFileLocation'), parameters('_artifactsLocationSasToken')))]",
@@ -156,8 +157,8 @@
             "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPSourceServer'))]"
         },
         "adVNettarget": "[take(concat('SQLMI-VNET', uniqueString(resourceGroup().id)), 15)]",
-        "networkSecurityGroupName": "[format('SQLMI-{0}-NSG', parameters('managedInstanceName'))]",
-        "routeTableName": "[format('SQLMI-{0}-Route-Table', parameters('managedInstanceName'))]"
+        "networkSecurityGroupName": "[format('SQLMI-{0}-NSG', variables('managedInstanceName'))]",
+        "routeTableName": "[format('SQLMI-{0}-Route-Table', variables('managedInstanceName'))]"
     },
     "resources": [
         {
@@ -544,7 +545,7 @@
         {
             "type": "Microsoft.Sql/managedInstances",
             "apiVersion": "2021-11-01-preview",
-            "name": "[parameters('managedInstanceName')]",
+            "name": "[variables('managedInstanceName')]",
             "location": "[parameters('location')]",
             "sku": {
               "name": "[parameters('skuName')]"
