@@ -316,14 +316,14 @@ function Save-SynapseSampleArtifacts{
 Write-Host ""$Resourcegroupname"" 
 Write-Host $Resourcegroupname
 Write-Host ""$WorkspaceDataLakeAccountName""
-$Resourcegroupname = "ayush-e2e-cslabs-test05";
-$StorageAccountName = "aksdatalakeaccount2";
+#$Resourcegroupname = "ayush-e2e-cslabs-test05";
+#$StorageAccountName = "aksdatalakeaccount2";
 $uri = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Geography.csv";
 $bacpacFileName = "Geography.csv";
-$storageaccount = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
-$storageaccountkey = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $StorageAccountName;
+#$storageaccount = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
+$storageaccountkey = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $WorkspaceDataLakeAccountName;
 
-$ctx = New-AzStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $storageaccountkey.Value[0]
+$ctx = New-AzStorageContext -StorageAccountName $WorkspaceDataLakeAccountName -StorageAccountKey $storageaccountkey.Value[0]
 
 Invoke-WebRequest -Uri $uri -OutFile $bacpacFileName 
 Set-AzStorageBlobContent -File $bacpacFileName -Container "sandpit" -Blob 'Geography.csv' -Context $ctx
