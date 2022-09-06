@@ -311,8 +311,8 @@ function Save-SynapseSampleArtifacts{
 	{
        Install-Module -Name Az.Accounts -Force
     }
-$Resourcegroupname = $SynapseWorkspaceName;
-$StorageAccountName = "aksdatalakeaccount";
+$Resourcegroupname = "ayush-e2e-cslabs-test03";
+$StorageAccountName = "aksdatalakeaccount1";
 $uri = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Geography.csv";
 $bacpacFileName = "Geography.csv";
 $storageaccount = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
