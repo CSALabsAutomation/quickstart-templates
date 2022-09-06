@@ -495,9 +495,6 @@
             "name": "[variables('adVNettarget')]",
             "apiVersion": "2020-05-01",
             "location": "[parameters('location')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Network/routeTables', variables('routeTableName'))]"
-            ],
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
@@ -514,36 +511,25 @@
                             },
                             "networkSecurityGroup": {
                                 "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
-                              }
+                              },
+                              "delegations": [
+                                {
+                                  "name": "managedInstanceDelegation",
+                                  "properties": {
+                                    "serviceName": "Microsoft.Sql/managedInstances"
+                                  }
+                                }
+                            ]
                         }
                     }
                 ],
                 "enableDdosProtection": false,
                 "enableVmProtection": false
             },
-            "resources": [
-                {
-                    "type": "subnets",
-                    "name": "[parameters('subnetName')]",
-                    "apiVersion": "2020-05-01",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Network/virtualNetworks', variables('adVNettarget'))]",
-                        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]",
-                        "[resourceId('Microsoft.Network/routeTables', variables('routeTableName'))]"
-                    ],
-                    "properties": {
-                        "addressPrefix": "10.3.0.0/24",
-                        "delegations": [
-                          {
-                            "name": "managedInstanceDelegation",
-                            "properties": {
-                              "serviceName": "Microsoft.Sql/managedInstances"
-                            }
-                          }
-                      ]
-                    }
-                }
-            ]
+                "dependsOn": [
+                    "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]",
+                    "[resourceId('Microsoft.Network/routeTables', variables('routeTableName'))]"
+                ]
         },
         {
             "type": "Microsoft.Sql/managedInstances",
