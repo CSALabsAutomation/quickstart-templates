@@ -324,15 +324,15 @@ $ctx = New-AzStorageContext -StorageAccountName $WorkspaceDataLakeAccountName -S
 Invoke-WebRequest -Uri $uri -OutFile $bacpacFileName 
 Set-AzStorageBlobContent -File $bacpacFileName -Container "sandpit" -Blob 'Geography.csv' -Context $ctx
 
-$uri1 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Date.csv";
-$bacpacFileName1 = "Date.csv";
+$uri1 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/date.csv";
+$bacpacFileName1 = "date.csv";
 #$storageaccount1 = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
 $storageaccountkey1 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $WorkspaceDataLakeAccountName;
 
 $ctx1 = New-AzStorageContext -StorageAccountName $WorkspaceDataLakeAccountName -StorageAccountKey $storageaccountkey1.Value[0]
 
 Invoke-WebRequest -Uri $uri1 -OutFile $bacpacFileName1 
-Set-AzStorageBlobContent -File $bacpacFileName1 -Container "sandpit" -Blob 'Date.csv' -Context $ctx1
+Set-AzStorageBlobContent -File $bacpacFileName1 -Container "sandpit" -Blob 'date.csv' -Context $ctx1
 
 
 Write-Host "copying CSV files Completed." 
