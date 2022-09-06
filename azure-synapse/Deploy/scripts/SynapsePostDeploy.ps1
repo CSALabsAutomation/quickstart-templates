@@ -306,11 +306,15 @@ function Save-SynapseSampleArtifacts{
       break
     }
   }
+  
+  Write-Host "copying CSV files:"  
    #Copy File to container.
   if ((Get-Module -ListAvailable Az.Accounts) -eq $null)
 	{
        Install-Module -Name Az.Accounts -Force
     }
+Write-Host ""$Resourcegroupname""  
+Write-Host ""$WorkspaceDataLakeAccountName""
 $Resourcegroupname = "ayush-e2e-cslabs-test03";
 $StorageAccountName = "aksdatalakeaccount1";
 $uri = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Geography.csv";
