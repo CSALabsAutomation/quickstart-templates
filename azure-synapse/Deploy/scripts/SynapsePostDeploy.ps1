@@ -311,17 +311,17 @@ function Save-SynapseSampleArtifacts{
 	{
        Install-Module -Name Az.Accounts -Force
     }
-$Resourcegroupname = "ayush-rg-copy";
-$StorageAccountName = "aksdatastore1";
+$Resourcegroupname = $SynapseWorkspaceName;
+$StorageAccountName = $WorkspaceDataLakeAccountName;
 $uri = "https://raw.githubusercontent.com/vAyushkhare/Azure/main/TestPipelines/Sample/OpenDatasets/Geography.csv";
 $bacpacFileName = "Geography.csv";
-#$storageaccount = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
-#$storageaccountkey = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $StorageAccountName;
+$storageaccount = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
+$storageaccountkey = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $StorageAccountName;
 
-#$ctx = New-AzStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $storageaccountkey.Value[0]
+$ctx = New-AzStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $storageaccountkey.Value[0]
 
-#Invoke-WebRequest -Uri $uri -OutFile $bacpacFileName 
-#Set-AzStorageBlobContent -File $bacpacFileName -Container "2013" -Blob 'Geography' -Context $ctx
+Invoke-WebRequest -Uri $uri -OutFile $bacpacFileName 
+Set-AzStorageBlobContent -File $bacpacFileName -Container "sandpit" -Blob 'Geography' -Context $ctx
 }
 
 #------------------------------------------------------------------------------------------------------------
