@@ -561,7 +561,7 @@
               "licenseType": "[parameters('licenseType')]"
             },
             "dependsOn": [
-              "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
+              "[resourceId('Microsoft.Network/virtualNetworks', variables('adVNettarget'))]"
             ]
         },
         {
