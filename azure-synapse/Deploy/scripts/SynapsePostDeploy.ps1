@@ -315,8 +315,8 @@ function Save-SynapseSampleArtifacts{
     }
 Write-Host ""$Resourcegroupname""  
 Write-Host ""$WorkspaceDataLakeAccountName""
-$Resourcegroupname = "ayush-e2e-cslabs-test03";
-$StorageAccountName = "aksdatalakeaccount1";
+$Resourcegroupname = ""$Resourcegroupname"";
+$StorageAccountName = ""$WorkspaceDataLakeAccountName"";
 $uri = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Geography.csv";
 $bacpacFileName = "Geography.csv";
 $storageaccount = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
