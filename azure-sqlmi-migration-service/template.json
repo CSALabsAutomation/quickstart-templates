@@ -124,20 +124,20 @@
             "metadata": {
                 "description": "The base URI where artifacts required by this template are located including a trailing '/'"
             },
-            "defaultValue": "https://mscalabshare.blob.core.windows.net/assets/"
+            "defaultValue": "[deployment().properties.templateLink.uri]"
         },
         "_artifactsLocationSasToken": {
             "type": "securestring",
             "metadata": {
                 "description": "The sasToken required to access _artifactsLocation.  When the template is deployed using the accompanying scripts, a sasToken will be automatically generated. Use the defaultValue if the staging location is not secured."
             },
-            "defaultValue": "?sp=r&st=2022-08-23T04:18:38Z&se=2099-08-23T12:18:38Z&spr=https&sv=2021-06-08&sr=c&sig=UGPM2wvOcfqs5S9xMqmez77c0dgUeqeyy6KYfutyhxE%3D"
+            "defaultValue": ""
         }
     },
     "variables": {
         "sourceServerName": "[take(concat('Source', uniqueString(resourceGroup().id)), 15)]",
-        "scriptLocation": "sqlserver/AddDatabaseToSqlServer2.ps1",
-        "bakFileLocation": "sqlserver/AdventureWorksLT2019.bak",
+        "scriptLocation": "AddDatabaseToSqlServer.ps1",
+        "bakFileLocation": "AdventureWorksLT2019.bak",
         "bakFileUri": "[uri(parameters('_artifactsLocation'), concat(variables('bakFileLocation'), parameters('_artifactsLocationSasToken')))]",
         "scriptFiles": [
             "[uri(parameters('_artifactsLocation'), concat(variables('scriptLocation'), parameters('_artifactsLocationSasToken')))]",
