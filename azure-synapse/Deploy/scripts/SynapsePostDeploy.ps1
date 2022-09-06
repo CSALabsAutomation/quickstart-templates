@@ -331,7 +331,7 @@ $storageaccountkey1 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupn
 
 $ctx1 = New-AzStorageContext -StorageAccountName $WorkspaceDataLakeAccountName -StorageAccountKey $storageaccountkey1.Value[0]
 
-Invoke-WebRequest -Uri1 $uri -OutFile $bacpacFileName1 
+Invoke-WebRequest -Uri $uri1 -OutFile $bacpacFileName1 
 Set-AzStorageBlobContent -File $bacpacFileName1 -Container "sandpit" -Blob 'Date.csv' -Context $ctx1
 
 
