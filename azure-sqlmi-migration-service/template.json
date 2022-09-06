@@ -514,15 +514,7 @@
                             },
                             "networkSecurityGroup": {
                                 "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
-                              },
-                              "delegations": [
-                                {
-                                  "name": "managedInstanceDelegation",
-                                  "properties": {
-                                    "serviceName": "Microsoft.Sql/managedInstances"
-                                  }
-                                }
-                            ]
+                              }
                         }
                     }
                 ],
@@ -540,7 +532,15 @@
                         "[resourceId('Microsoft.Network/routeTables', variables('routeTableName'))]"
                     ],
                     "properties": {
-                        "addressPrefix": "10.3.0.0/24"
+                        "addressPrefix": "10.3.0.0/24",
+                        "delegations": [
+                          {
+                            "name": "managedInstanceDelegation",
+                            "properties": {
+                              "serviceName": "Microsoft.Sql/managedInstances"
+                            }
+                          }
+                      ]
                     }
                 }
             ]
