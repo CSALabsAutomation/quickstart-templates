@@ -34,7 +34,7 @@ $fileList = Invoke-Sqlcmd `
                     -ServerInstance . `
                     -UserName $username `
                     -Password $password `
-                    -Query "restore filelistonly from disk='$($pwd)\sqlserver\AdventureWorksLT2019.bak'";
+                    -Query "restore filelistonly from disk='$($pwd)\AdventureWorksLT2019.bak'";
 
 # Create move records for each file in the backup
 $relocateFiles = @();
@@ -66,7 +66,7 @@ Restore-SqlDatabase `
 	-ReplaceDatabase `
 	-ServerInstance . `
 	-Database "SampleDatabaseForOnline" `
-	-BackupFile "$pwd\sqlserver\AdventureWorksLT2019.bak" `
+	-BackupFile "$pwd\AdventureWorksLT2019.bak" `
 	-AutoRelocateFile `
 	-Credential $credentials; 
 Restore-SqlDatabase `
