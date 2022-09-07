@@ -1,0 +1,1 @@
+Write-Host "Installing VS Code";
