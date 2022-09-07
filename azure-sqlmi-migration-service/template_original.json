@@ -550,15 +550,7 @@
                             },
                             "networkSecurityGroup": {
                                 "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
-                              },
-                              "delegations": [
-                                {
-                                  "name": "managedInstanceDelegation",
-                                  "properties": {
-                                    "serviceName": "Microsoft.Sql/managedInstances"
-                                  }
-                                }
-                            ]
+                              }
                         }
                     }
                 ],
@@ -569,29 +561,6 @@
                     "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]",
                     "[resourceId('Microsoft.Network/routeTables', variables('routeTableName'))]"
                 ]
-        },
-        {
-            "type": "Microsoft.Sql/managedInstances",
-            "apiVersion": "2021-11-01-preview",
-            "name": "[variables('managedInstanceName')]",
-            "location": "[parameters('location')]",
-            "sku": {
-              "name": "[parameters('skuName')]"
-            },
-            "identity": {
-              "type": "SystemAssigned"
-            },
-            "properties": {
-              "administratorLogin": "[parameters('sourceWindowsAdminUserName')]",
-              "administratorLoginPassword": "[parameters('sourceWindowsAdminPassword')]",
-              "subnetId": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('adVNettarget'), parameters('subnetName'))]",
-              "storageSizeInGB": "[parameters('storageSizeInGB')]",
-              "vCores": "[parameters('vCores')]",
-              "licenseType": "[parameters('licenseType')]"
-            },
-            "dependsOn": [
-              "[resourceId('Microsoft.Network/virtualNetworks', variables('adVNettarget'))]"
-            ]
         },
         {
             "type": "Microsoft.Resources/deploymentScripts",
