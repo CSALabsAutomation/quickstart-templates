@@ -314,7 +314,7 @@ function Save-SynapseSampleArtifacts{
        Install-Module -Name Az.Accounts -Force
     }
 
-$uri = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Geography.csv";
+$uri = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/TaxiDataFiles/Geography.csv";
 $bacpacFileName = "Geography.csv";
 #$storageaccount = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
 $storageaccountkey = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $WorkspaceDataLakeAccountName;
@@ -324,7 +324,7 @@ $ctx = New-AzStorageContext -StorageAccountName $WorkspaceDataLakeAccountName -S
 Invoke-WebRequest -Uri $uri -OutFile $bacpacFileName 
 Set-AzStorageBlobContent -File $bacpacFileName -Container "sandpit" -Blob 'Geography.csv' -Context $ctx
 
-$uri1 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/date.csv";
+$uri1 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/TaxiDataFiles/date.csv";
 $bacpacFileName1 = "date.csv";
 #$storageaccount1 = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
 $storageaccountkey1 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $WorkspaceDataLakeAccountName;
