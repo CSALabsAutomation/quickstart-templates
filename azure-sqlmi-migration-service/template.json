@@ -84,6 +84,27 @@
               "description": "Unique Suffix"
             }
         },
+        "firstuniquestring": {
+            "type": "string",
+            "defaultValue": "[format('firstunique{0}', parameters('uniqueSuffix'))]",
+            "metadata": {
+              "description": "firstuniquestring"
+            }
+        },
+        "seconduniquestring": {
+            "type": "string",
+            "defaultValue": "[format('secondunique{0}', parameters('uniqueSuffix'))]",
+            "metadata": {
+              "description": "seconduniquestring"
+            }
+        },
+        "identityName": {
+            "defaultValue": "PostDeploymentScriptuserAssignedName",
+            "type": "string",
+            "metadata": {
+                "description": "Name of identity"
+            }
+        },
         "createPublicIP": {
             "defaultValue": true,
             "type": "bool",
@@ -119,6 +140,20 @@
             },
             "defaultValue": "Standard_D8s_v3"
         },
+        "fileuploaduri": {
+            "type": "string",
+            "metadata": {
+                "description": "The URI of script file to upload blob container"
+            },
+            "defaultValue": "https://github.com/CSALabsAutomation/quickstart-templates/blob/main/azure-sqlmi-migration-service/UploadBlobFile.ps1"
+        },
+        "bakpakuri": {
+            "type": "string",
+            "metadata": {
+                "description": "The URI of bakpakfile"
+            },
+            "defaultValue": "https://github.com/CSALabsAutomation/quickstart-templates/blob/main/azure-sqlmi-migration-service/AdventureWorksLT2019.bak"
+        },
         "_artifactsLocation": {
             "type": "string",
             "metadata": {
@@ -135,9 +170,13 @@
         }
     },
     "variables": {
+        "fileuploadurivariable" : "[parameters('fileuploaduri')]",
+        "bootstrapRoleAssignmentId": "[guid(parameters('firstuniquestring'), parameters('seconduniquestring'))]",
+        "contributorRoleDefinitionId":"B24988ac-6180-42a0-ab88-20f7382dd24c",
         "sourceServerName": "[take(concat('Source', uniqueString(resourceGroup().id)), 15)]",
         "managedInstanceName": "[take(concat('sqlmi', uniqueString(resourceGroup().id)), 15)]",
         "scriptLocation": "AddDatabaseToSqlServer.ps1",
+        "scriptLocationToUploadFile": "UploadBlobFile.ps1",
         "bakFileLocation": "AdventureWorksLT2019.bak",
         "bakFileUri": "[uri(parameters('_artifactsLocation'), concat(variables('bakFileLocation'), parameters('_artifactsLocationSasToken')))]",
         "scriptFiles": [
@@ -145,7 +184,7 @@
             "[variables('bakFileUri')]"
         ],
         "scriptParameters": "[concat('-userName ', parameters('sourceWindowsAdminUserName'), ' -password \"', parameters('sourceWindowsAdminPassword'))]",
-        "scriptParametersToUploadFile": "[concat('-Resourcegroupname ', parameters('resourcegroupname'), ' -uri \\\"', variables('bakFileUri'), '\\\"')]",
+        "scriptParametersToUploadFile": "[concat('-Resourcegroupname ', parameters('resourcegroupname'), ' -uri \"', parameters('bakpakuri'))]",
         "storageAccountNamePrefix": "storage",
         "storageAccountName": "[toLower(concat(variables('storageAccountNamePrefix'), uniqueString(resourceGroup().id)))]",
         "sourceNicName": "[take(concat('SourceNIC', uniqueString(resourceGroup().id)), 15)]",
@@ -555,6 +594,52 @@
             ]
         },
         {
+            "type": "Microsoft.Resources/deploymentScripts",
+            "apiVersion": "2020-10-01",
+            "name": "PostDeploymentScriptForBackupUpload",
+            "location": "[resourceGroup().location]",
+            "kind": "AzurePowerShell",
+            "identity": {
+                "type": "UserAssigned",
+                "userAssignedIdentities": {
+                    "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('identityName'))]": {}
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('identityName'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices/containers', variables('storageAccountName'), 'default', 'backup')]"
+            ],
+            "properties": {
+                "azPowerShellVersion": "7.2.4",
+                "cleanupPreference": "OnSuccess",
+                "retentionInterval": "P1D",
+                "timeout": "PT30M",
+                "arguments": "[variables('scriptParametersToUploadFile')]",
+                "primaryScriptUri": "[variables('fileuploadurivariable')]"
+                
+            }
+        },
+        {
+            "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
+            "apiVersion": "2018-11-30",
+            "name": "[parameters('identityName')]",
+            "location": "[resourceGroup().location]"
+        },
+        {
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2018-09-01-preview",
+            "name": "[variables('bootstrapRoleAssignmentId')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('identityName'))]"
+            ],
+            "properties": {
+                "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('contributorRoleDefinitionId'))]",
+                "principalId": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('identityName')), '2018-11-30').principalId]",
+                "scope": "[resourceGroup().id]",
+                "principalType": "ServicePrincipal"
+            }
+        },
+        {
             "type": "Microsoft.Storage/storageAccounts",
             "sku": {
                 "name": "Standard_LRS",
@@ -581,6 +666,34 @@
                     },
                     "keySource": "Microsoft.Storage"
                 }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices",
+            "apiVersion": "2019-04-01",
+            "name": "[concat(variables('storageAccountName'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+            ],
+            "properties": {
+                "cors": {
+                    "corsRules": []
+                },
+                "deleteRetentionPolicy": {
+                    "enabled": false
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+            "apiVersion": "2019-04-01",
+            "name": "[concat(variables('storageAccountName'), '/default/', 'backup')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', variables('storageAccountName'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+            ],
+            "properties": {
+                "publicAccess": "None"
             }
         }
     ],
