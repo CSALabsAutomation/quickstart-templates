@@ -152,7 +152,7 @@
             "metadata": {
                 "description": "The URI of bakpakfile"
             },
-            "defaultValue": "https://github.com/CSALabsAutomation/quickstart-templates/blob/main/azure-sqlmi-migration-service/AdventureWorksLT2019.bak"
+            "defaultValue": "https://github.com/CSALabsAutomation/quickstart-templates/blob/main/azure-sqlmi-migration-service/withchecksum/AdventureWorksLT2019.bak"
         },
         "_artifactsLocation": {
             "type": "string",
