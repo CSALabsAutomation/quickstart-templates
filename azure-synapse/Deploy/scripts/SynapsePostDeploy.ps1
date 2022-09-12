@@ -287,7 +287,11 @@ function Save-SynapseSampleArtifacts{
         }
 
         $definitionFilePath = [guid]::NewGuid()
+	Write-Host $definitionFilePath
         Set-Content -Path $definitionFilePath $fileContent
+	Write-Host $SynapseWorkspaceName
+	Write-Host $pipeline.name
+	Write-Host $definitionFilePath
         Set-AzSynapsePipeline -WorkspaceName $SynapseWorkspaceName -Name $pipeline.name -DefinitionFile $definitionFilePath
 	#Invoke-AzSynapsePipeline -WorkspaceName $SynapseWorkspaceName -PipelineName "run_notebook_test"
         Remove-Item -Path $definitionFilePath
