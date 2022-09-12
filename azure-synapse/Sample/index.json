@@ -114,6 +114,13 @@
                     "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Notebooks/06-ChartingSynapseNotebook.ipynb",
                     "workspaceFolderPath": "OpenDatasets",
                     "tokens": []
+                },
+                {
+                    "name": "07 - Creating adworks DB with Synapse Notebooks",
+                    "interface": "powershell",
+                    "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Notebooks/create_adworksdb.ipynb",
+                    "workspaceFolderPath": "OpenDatasets",
+                    "tokens": []
                 }
             ],
             "linkedServices":[
