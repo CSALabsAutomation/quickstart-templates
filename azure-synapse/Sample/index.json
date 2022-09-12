@@ -70,13 +70,7 @@
                 }
 
             ],
-            "pipelines": [
-             {
-                    "name": "run_notebook_test",
-                    "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Pipelines/adworksdb.json",
-                    "tokens": []
-              }
-            ],
+            
             "datasets":[],
             "notebooks": [
                 {
@@ -128,6 +122,13 @@
                     "workspaceFolderPath": "OpenDatasets",
                     "tokens": []
                 }
+            ],
+            "pipelines": [
+             {
+                    "name": "run_notebook_test",
+                    "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Pipelines/adworksdb.json",
+                    "tokens": []
+              }
             ],
             "linkedServices":[
                 {
