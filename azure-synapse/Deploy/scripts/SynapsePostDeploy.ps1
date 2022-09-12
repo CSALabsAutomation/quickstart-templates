@@ -146,6 +146,19 @@ function Save-SynapseSampleArtifacts{
   else {
       Install-Module Az.Synapse -Force
       Import-Module Az.Synapse
+      Install-Module Az.MachineLearningServices -Force
+      Import-Module Az.MachineLearningServices
+      
+  }
+  #Install MachineLearningServices Module
+  if (Get-Module -ListAvailable -Name "Az.MachineLearningServices") {
+      Write-Host "PowerShell Module Az.MachineLearningServices already installed."
+  } 
+  else {
+     
+      Install-Module Az.MachineLearningServices -Force
+      Import-Module Az.MachineLearningServices
+      
   }
 
   #Add System.Web type to encode/decode URL
@@ -297,7 +310,10 @@ function Save-SynapseSampleArtifacts{
           $definitionFilePath = [guid]::NewGuid()
           Set-Content -Path $definitionFilePath $fileContent
           Set-AzSynapseNotebook -WorkspaceName $SynapseWorkspaceName -Name $notebook.name -DefinitionFile $definitionFilePath -FolderPath $notebook.workspaceFolderPath
-          Remove-Item -Path $definitionFilePath
+          if ($notebook.name.ToLower() -eq "creating_adworks_database") {
+	  Invoke-AzMLWorkspaceNotebook -ResourceGroupName $Resourcegroupname -WorkspaceName $SynapseWorkspaceName
+	  }
+	  Remove-Item -Path $definitionFilePath
         }
         elseif ($notebook.interface.ToLower() -eq "rest") {
           ## Action to perform if the condition is true #>
