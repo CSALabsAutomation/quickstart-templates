@@ -20,7 +20,7 @@
                         "type": "NotebookReference"
                     },
                     "sparkPool": {
-                        "referenceName": "SampleSparkPool",
+                        "referenceName": "SparkPool",
                         "type": "BigDataPoolReference"
                     },
                     "executorSize": null,
