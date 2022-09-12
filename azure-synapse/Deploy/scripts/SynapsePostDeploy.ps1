@@ -288,7 +288,7 @@ function Save-SynapseSampleArtifacts{
         if ($notebook.interface.ToLower() -eq "powershell") {
           $definitionFilePath = [guid]::NewGuid()
           Set-Content -Path $definitionFilePath $fileContent
-          Set-AzSynapseNotebook -WorkspaceName $SynapseWorkspaceName -Name $notebook.name -DefinitionFile $definitionFilePath -FolderPath $notebook.workspaceFolderPath
+          Set-AzSynapseNotebook -WorkspaceName $SynapseWorkspaceName -Name $notebook.name -DefinitionFile $definitionFilePath -FolderPath $notebook.workspaceFolderPath -SparkPoolName "SparkPool"
           if ($notebook.name.ToLower() -eq "creating_adworks_database") {
 	  #Invoke-AzMLWorkspaceNotebook -ResourceGroupName $Resourcegroupname -WorkspaceName $SynapseWorkspaceName
 	  }
