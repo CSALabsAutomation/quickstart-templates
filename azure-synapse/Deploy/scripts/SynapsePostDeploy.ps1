@@ -322,7 +322,7 @@ function Save-SynapseSampleArtifacts{
 	Write-Host $pipeline.name
 	Write-Host $definitionFilePath
         Set-AzSynapsePipeline -WorkspaceName $SynapseWorkspaceName -Name $pipeline.name -DefinitionFile $definitionFilePath
-	#Invoke-AzSynapsePipeline -WorkspaceName $SynapseWorkspaceName -PipelineName "run_notebook_test"
+	Invoke-AzSynapsePipeline -WorkspaceName $SynapseWorkspaceName -PipelineName $pipeline.name
         Remove-Item -Path $definitionFilePath
       }
 
