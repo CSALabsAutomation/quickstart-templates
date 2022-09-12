@@ -271,32 +271,6 @@ function Save-SynapseSampleArtifacts{
         Remove-Item -Path $definitionFilePath
       }
 
-      #Create Pipeline artifacts.
-      Write-Host "Deploying Pipelines:"
-      Write-Host "-----------------------------------------------------------------------"
-      foreach($pipeline in $sampleArtifactCollection.artifacts.pipelines)
-      {
-        $fileContent = Invoke-WebRequest $pipeline.definitionFilePath
-
-        if ($pipeline.tokens.length -gt 0) {
-            
-            foreach($token in $pipeline.tokens)
-            {
-                $fileContent = $fileContent -replace $token, $synapseTokens.Get_Item($token)
-            }
-        }
-
-        $definitionFilePath = [guid]::NewGuid()
-	Write-Host $definitionFilePath
-        Set-Content -Path $definitionFilePath $fileContent
-	Write-Host $SynapseWorkspaceName
-	Write-Host $pipeline.name
-	Write-Host $definitionFilePath
-        Set-AzSynapsePipeline -WorkspaceName $SynapseWorkspaceName -Name $pipeline.name -DefinitionFile $definitionFilePath
-	#Invoke-AzSynapsePipeline -WorkspaceName $SynapseWorkspaceName -PipelineName "run_notebook_test"
-        Remove-Item -Path $definitionFilePath
-      }
-
       #Create Notebook artifacts.
       Write-Host "Deploying Notebooks:"
       Write-Host "-----------------------------------------------------------------------"
@@ -324,6 +298,34 @@ function Save-SynapseSampleArtifacts{
           ## Action to perform if the condition is true #>
         }
       }
+      
+      #Create Pipeline artifacts.
+      Write-Host "Deploying Pipelines:"
+      Write-Host "-----------------------------------------------------------------------"
+      foreach($pipeline in $sampleArtifactCollection.artifacts.pipelines)
+      {
+        $fileContent = Invoke-WebRequest $pipeline.definitionFilePath
+
+        if ($pipeline.tokens.length -gt 0) {
+            
+            foreach($token in $pipeline.tokens)
+            {
+                $fileContent = $fileContent -replace $token, $synapseTokens.Get_Item($token)
+            }
+        }
+
+        $definitionFilePath = [guid]::NewGuid()
+	Write-Host $definitionFilePath
+	Write-Host $fileContent
+        Set-Content -Path $definitionFilePath $fileContent
+	Write-Host $SynapseWorkspaceName
+	Write-Host $pipeline.name
+	Write-Host $definitionFilePath
+        Set-AzSynapsePipeline -WorkspaceName $SynapseWorkspaceName -Name $pipeline.name -DefinitionFile $definitionFilePath
+	#Invoke-AzSynapsePipeline -WorkspaceName $SynapseWorkspaceName -PipelineName "run_notebook_test"
+        Remove-Item -Path $definitionFilePath
+      }
+
       break
     }
   }
