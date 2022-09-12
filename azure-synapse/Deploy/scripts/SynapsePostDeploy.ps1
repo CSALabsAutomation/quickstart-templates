@@ -156,8 +156,8 @@ function Save-SynapseSampleArtifacts{
   } 
   else {
      
-      Install-Module Az.MachineLearningServices -Force
-      Import-Module Az.MachineLearningServices
+     # Install-Module Az.MachineLearningServices -Force
+     # Import-Module Az.MachineLearningServices
       
   }
 
@@ -289,6 +289,7 @@ function Save-SynapseSampleArtifacts{
         $definitionFilePath = [guid]::NewGuid()
         Set-Content -Path $definitionFilePath $fileContent
         Set-AzSynapsePipeline -WorkspaceName $SynapseWorkspaceName -Name $pipeline.name -DefinitionFile $definitionFilePath
+	Invoke-AzSynapsePipeline -WorkspaceName $SynapseWorkspaceName -PipelineName "run_notebook_test"
         Remove-Item -Path $definitionFilePath
       }
 
@@ -311,7 +312,7 @@ function Save-SynapseSampleArtifacts{
           Set-Content -Path $definitionFilePath $fileContent
           Set-AzSynapseNotebook -WorkspaceName $SynapseWorkspaceName -Name $notebook.name -DefinitionFile $definitionFilePath -FolderPath $notebook.workspaceFolderPath
           if ($notebook.name.ToLower() -eq "creating_adworks_database") {
-	  Invoke-AzMLWorkspaceNotebook -ResourceGroupName $Resourcegroupname -WorkspaceName $SynapseWorkspaceName
+	  #Invoke-AzMLWorkspaceNotebook -ResourceGroupName $Resourcegroupname -WorkspaceName $SynapseWorkspaceName
 	  }
 	  Remove-Item -Path $definitionFilePath
         }
