@@ -126,7 +126,7 @@
             "pipelines": [
              {
                     "name": "run_notebook_test",
-                    "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Pipelines/adworksdb.json",
+                    "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Pipelines/pipelinewithspark.json",
                     "tokens": []
               }
             ],
