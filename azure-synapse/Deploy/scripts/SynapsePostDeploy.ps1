@@ -340,82 +340,82 @@ function Save-SynapseSampleArtifacts{
 $uri = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/TaxiDataFiles/Geography.csv";
 $bacpacFileName = "Geography.csv";
 #$storageaccount = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
-$storageaccountkey = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $WorkspaceDataLakeAccountName;
+$storageaccountkey = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $RawDataLakeAccountName;
 
-$ctx = New-AzStorageContext -StorageAccountName $WorkspaceDataLakeAccountName -StorageAccountKey $storageaccountkey.Value[0]
+$ctx = New-AzStorageContext -StorageAccountName $RawDataLakeAccountName -StorageAccountKey $storageaccountkey.Value[0]
 
 Invoke-WebRequest -Uri $uri -OutFile $bacpacFileName 
-Set-AzStorageBlobContent -File $bacpacFileName -Container "sandpit" -Blob 'Geography.csv' -Context $ctx
+Set-AzStorageBlobContent -File $bacpacFileName -Container "raw" -Blob 'Geography.csv' -Context $ctx
 
 $uri1 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/TaxiDataFiles/date.csv";
 $bacpacFileName1 = "date.csv";
 #$storageaccount1 = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
-$storageaccountkey1 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $WorkspaceDataLakeAccountName;
+$storageaccountkey1 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $RawDataLakeAccountName;
 
-$ctx1 = New-AzStorageContext -StorageAccountName $WorkspaceDataLakeAccountName -StorageAccountKey $storageaccountkey1.Value[0]
+$ctx1 = New-AzStorageContext -StorageAccountName $RawDataLakeAccountName -StorageAccountKey $storageaccountkey1.Value[0]
 
 Invoke-WebRequest -Uri $uri1 -OutFile $bacpacFileName1 
-Set-AzStorageBlobContent -File $bacpacFileName1 -Container "sandpit" -Blob 'date.csv' -Context $ctx1
+Set-AzStorageBlobContent -File $bacpacFileName1 -Container "raw" -Blob 'date.csv' -Context $ctx1
 
 $uri2 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/TaxiDataFiles/HackneyLicense.csv";
 $bacpacFileName2 = "HackneyLicense.csv";
 #$storageaccount2 = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
-$storageaccountkey2 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $WorkspaceDataLakeAccountName;
+$storageaccountkey2 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $RawDataLakeAccountName;
 
-$ctx2 = New-AzStorageContext -StorageAccountName $WorkspaceDataLakeAccountName -StorageAccountKey $storageaccountkey2.Value[0]
+$ctx2 = New-AzStorageContext -StorageAccountName $RawDataLakeAccountName -StorageAccountKey $storageaccountkey2.Value[0]
 
 Invoke-WebRequest -Uri $uri2 -OutFile $bacpacFileName2 
-Set-AzStorageBlobContent -File $bacpacFileName2 -Container "sandpit" -Blob 'HackneyLicense.csv' -Context $ctx2
+Set-AzStorageBlobContent -File $bacpacFileName2 -Container "raw" -Blob 'HackneyLicense.csv' -Context $ctx2
 
 $uri3 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/TaxiDataFiles/Medallion.csv";
 $bacpacFileName3 = "Medallion.csv";
 #$storageaccount3 = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
-$storageaccountkey3 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $WorkspaceDataLakeAccountName;
+$storageaccountkey3 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $RawDataLakeAccountName;
 
-$ctx3 = New-AzStorageContext -StorageAccountName $WorkspaceDataLakeAccountName -StorageAccountKey $storageaccountkey3.Value[0]
+$ctx3 = New-AzStorageContext -StorageAccountName $RawDataLakeAccountName -StorageAccountKey $storageaccountkey3.Value[0]
 
 Invoke-WebRequest -Uri $uri3 -OutFile $bacpacFileName3 
-Set-AzStorageBlobContent -File $bacpacFileName3 -Container "sandpit" -Blob 'Medallion.csv' -Context $ctx3
+Set-AzStorageBlobContent -File $bacpacFileName3 -Container "raw" -Blob 'Medallion.csv' -Context $ctx3
 
 $uri4 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/TaxiDataFiles/Time.csv";
 $bacpacFileName4 = "Time.csv";
 #$storageaccount4 = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
-$storageaccountkey4 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $WorkspaceDataLakeAccountName;
+$storageaccountkey4 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $RawDataLakeAccountName;
 
-$ctx4 = New-AzStorageContext -StorageAccountName $WorkspaceDataLakeAccountName -StorageAccountKey $storageaccountkey4.Value[0]
+$ctx4 = New-AzStorageContext -StorageAccountName $RawDataLakeAccountName -StorageAccountKey $storageaccountkey4.Value[0]
 
 Invoke-WebRequest -Uri $uri4 -OutFile $bacpacFileName4 
-Set-AzStorageBlobContent -File $bacpacFileName4 -Container "sandpit" -Blob 'Time.csv' -Context $ctx4
+Set-AzStorageBlobContent -File $bacpacFileName4 -Container "raw" -Blob 'Time.csv' -Context $ctx4
 
 $uri5 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/TaxiDataFiles/Trip.csv";
 $bacpacFileName5 = "Trip.csv";
 #$storageaccount5 = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
-$storageaccountkey5 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $WorkspaceDataLakeAccountName;
+$storageaccountkey5 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $RawDataLakeAccountName;
 
-$ctx5 = New-AzStorageContext -StorageAccountName $WorkspaceDataLakeAccountName -StorageAccountKey $storageaccountkey5.Value[0]
+$ctx5 = New-AzStorageContext -StorageAccountName $RawDataLakeAccountName -StorageAccountKey $storageaccountkey5.Value[0]
 
 Invoke-WebRequest -Uri $uri5 -OutFile $bacpacFileName5 
-Set-AzStorageBlobContent -File $bacpacFileName5 -Container "sandpit" -Blob 'Trip.csv' -Context $ctx5
+Set-AzStorageBlobContent -File $bacpacFileName5 -Container "raw" -Blob 'Trip.csv' -Context $ctx5
 
 $uri6 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/TaxiDataFiles/Weather.csv";
 $bacpacFileName6 = "Weather.csv";
 #$storageaccount6 = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
-$storageaccountkey6 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $WorkspaceDataLakeAccountName;
+$storageaccountkey6 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $RawDataLakeAccountName;
 
-$ctx6 = New-AzStorageContext -StorageAccountName $WorkspaceDataLakeAccountName -StorageAccountKey $storageaccountkey6.Value[0]
+$ctx6 = New-AzStorageContext -StorageAccountName $RawDataLakeAccountName -StorageAccountKey $storageaccountkey6.Value[0]
 
 Invoke-WebRequest -Uri $uri6 -OutFile $bacpacFileName6 
-Set-AzStorageBlobContent -File $bacpacFileName6 -Container "sandpit" -Blob 'Weather.csv' -Context $ctx6
+Set-AzStorageBlobContent -File $bacpacFileName6 -Container "raw" -Blob 'Weather.csv' -Context $ctx6
 
-$uri7 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/TaxiDataFiles/Weather.csv";
-$bacpacFileName7 = "Weather.csv";
+$uri7 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/TaxiDataFiles/yellow500.parquet";
+$bacpacFileName7 = "yellow500.parquet";
 #$storageaccount7 = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
-$storageaccountkey7 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $WorkspaceDataLakeAccountName;
+$storageaccountkey7 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $RawDataLakeAccountName;
 
-$ctx7 = New-AzStorageContext -StorageAccountName $WorkspaceDataLakeAccountName -StorageAccountKey $storageaccountkey7.Value[0]
+$ctx7 = New-AzStorageContext -StorageAccountName $RawDataLakeAccountName -StorageAccountKey $storageaccountkey7.Value[0]
 
 Invoke-WebRequest -Uri $uri7 -OutFile $bacpacFileName7 
-Set-AzStorageBlobContent -File $bacpacFileName7 -Container "sandpit" -Blob 'testfolder/Weather.csv' -Context $ctx7
+Set-AzStorageBlobContent -File $bacpacFileName7 -Container "raw" -Blob 'yellow/puYear=2022/puMonth=01/yellow.parquet' -Context $ctx7
 
 Write-Host "copying CSV files Completed." 
 }
