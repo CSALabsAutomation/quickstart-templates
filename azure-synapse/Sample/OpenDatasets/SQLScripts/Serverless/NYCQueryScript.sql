@@ -9,7 +9,7 @@ Let's first get familiar with the NYC Taxi data by running the following query. 
 
 SELECT TOP 100 * FROM
     OPENROWSET(
-        BULK 'https://azwksdatalakejea3xm.dfs.core.windows.net/sandpit/yellow/puYear=*/puMonth=*/*.parquet',
+        BULK 'https://<azrawStorageAccount>.dfs.core.windows.net/raw/yellow/puYear=*/puMonth=*/*.parquet',
         FORMAT='PARQUET'
     )
     AS [nyc];
@@ -25,7 +25,7 @@ SELECT
     COUNT(*) AS rides_per_year
 FROM
     OPENROWSET(
-        BULK 'https://azwksdatalakejea3xm.dfs.core.windows.net/sandpit/yellow/puYear=*/puMonth=*/*.parquet',
+        BULK 'https://<azrawStorageAccount>.dfs.core.windows.net/raw/yellow/puYear=*/puMonth=*/*.parquet',
         FORMAT='PARQUET'
     ) AS [nyc]
 --WHERE nyc.filepath(1) >= '2009' AND nyc.filepath(1) <= '2022'
@@ -48,7 +48,7 @@ SELECT
     COUNT(*) as rides_per_day
 FROM
     OPENROWSET(
-        BULK 'https://azwksdatalakejea3xm.dfs.core.windows.net/sandpit/yellow/puYear=*/puMonth=*/*.parquet',
+        BULK 'https://<azrawStorageAccount>.dfs.core.windows.net/raw/yellow/puYear=*/puMonth=*/*.parquet',
         FORMAT='PARQUET'
     ) AS [nyc]
 WHERE nyc.filepath(1) = '2022'
