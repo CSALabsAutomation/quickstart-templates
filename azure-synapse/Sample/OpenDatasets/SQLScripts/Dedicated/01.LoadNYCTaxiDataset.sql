@@ -147,7 +147,7 @@ WITH
 
 /* Load the data into your data warehouse */
 COPY INTO [dbo].[Date]
-FROM 'https://nytaxiblob.blob.core.windows.net/2013/Date'
+FROM 'https://<azrawStorageAccount>.dfs.core.windows.net/raw/date.csv'
 WITH
 (
     FILE_TYPE = 'CSV',
@@ -158,7 +158,7 @@ OPTION (LABEL = 'COPY : Load [dbo].[Date] - Taxi dataset');
 
 
 COPY INTO [dbo].[Geography]
-FROM 'https://nytaxiblob.blob.core.windows.net/2013/Geography'
+FROM 'https://<azrawStorageAccount>.dfs.core.windows.net/raw/Geography.csv'
 WITH
 (
     FILE_TYPE = 'CSV',
@@ -168,7 +168,7 @@ WITH
 OPTION (LABEL = 'COPY : Load [dbo].[Geography] - Taxi dataset');
 
 COPY INTO [dbo].[HackneyLicense]
-FROM 'https://nytaxiblob.blob.core.windows.net/2013/HackneyLicense'
+FROM 'https://<azrawStorageAccount>.dfs.core.windows.net/raw/HackneyLicense.csv'
 WITH
 (
     FILE_TYPE = 'CSV',
@@ -178,7 +178,7 @@ WITH
 OPTION (LABEL = 'COPY : Load [dbo].[HackneyLicense] - Taxi dataset');
 
 COPY INTO [dbo].[Medallion]
-FROM 'https://nytaxiblob.blob.core.windows.net/2013/Medallion'
+FROM 'https://<azrawStorageAccount>.dfs.core.windows.net/raw/Medallion.csv'
 WITH
 (
     FILE_TYPE = 'CSV',
@@ -188,7 +188,7 @@ WITH
 OPTION (LABEL = 'COPY : Load [dbo].[Medallion] - Taxi dataset');
 
 COPY INTO [dbo].[Time]
-FROM 'https://nytaxiblob.blob.core.windows.net/2013/Time'
+FROM 'https://<azrawStorageAccount>.dfs.core.windows.net/raw/Time.csv'
 WITH
 (
     FILE_TYPE = 'CSV',
@@ -198,25 +198,23 @@ WITH
 OPTION (LABEL = 'COPY : Load [dbo].[Time] - Taxi dataset');
 
 COPY INTO [dbo].[Weather]
-FROM 'https://nytaxiblob.blob.core.windows.net/2013/Weather'
+FROM 'https://<azrawStorageAccount>.dfs.core.windows.net/raw/Weather.csv'
 WITH
 (
     FILE_TYPE = 'CSV',
 	FIELDTERMINATOR = ',',
-	FIELDQUOTE = '',
-	ROWTERMINATOR='0X0A'
+	FIELDQUOTE = ''
+	
 )
 OPTION (LABEL = 'COPY : Load [dbo].[Weather] - Taxi dataset');
 
 COPY INTO [dbo].[Trip]
-FROM 'https://nytaxiblob.blob.core.windows.net/2013/Trip2013'
+FROM 'https://<azrawStorageAccount>.dfs.core.windows.net/raw/Trip2013.csv'
 WITH
 (
-    FILE_TYPE = 'CSV',
-	FIELDTERMINATOR = '|',
-	FIELDQUOTE = '',
-	ROWTERMINATOR='0X0A',
-	COMPRESSION = 'GZIP'
+   FILE_TYPE = 'CSV',
+	FIELDTERMINATOR = ',',
+	FIELDQUOTE = ''
 )
 OPTION (LABEL = 'COPY : Load [dbo].[Trip] - Taxi dataset');
 
