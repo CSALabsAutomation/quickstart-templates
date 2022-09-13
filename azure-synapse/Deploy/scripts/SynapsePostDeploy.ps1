@@ -244,7 +244,10 @@ function Save-SynapseSampleArtifacts{
                 $fileContent = $fileContent -replace $token, $synapseTokens.Get_Item($token)
             }
         }
-
+	Write-Host $fileContent
+	Write-Host $SynapseWorkspaceName
+	Write-Host $dataset.name
+	Write-Host $definitionFilePath
         $definitionFilePath = [guid]::NewGuid()
         Set-Content -Path $definitionFilePath $fileContent
         Set-AzSynapseDataset -WorkspaceName $SynapseWorkspaceName -Name $dataset.name -DefinitionFile $definitionFilePath
@@ -257,14 +260,17 @@ function Save-SynapseSampleArtifacts{
       foreach($dataflow in $sampleArtifactCollection.artifacts.dataflows)
       {
         $fileContent = Invoke-WebRequest $dataflow.definitionFilePath
-
+	Write-Host $definitionFilePath
         if ($dataflow.tokens.length -gt 0) {
             foreach($token in $dataflow.tokens)
             {
                 $fileContent = $fileContent -replace $token, $synapseTokens.Get_Item($token)
             }
         }
-
+	Write-Host $fileContent
+	Write-Host $SynapseWorkspaceName
+	Write-Host $dataflow.name
+	Write-Host $definitionFilePath
         $definitionFilePath = [guid]::NewGuid()
         Set-Content -Path $definitionFilePath $fileContent
         Set-AzSynapseDataFlow -WorkspaceName $SynapseWorkspaceName -Name $dataflow.name -DefinitionFile $definitionFilePath
@@ -316,13 +322,13 @@ function Save-SynapseSampleArtifacts{
 
         $definitionFilePath = [guid]::NewGuid()
 	Write-Host $definitionFilePath
-	Write-Host $fileContent
+	#Write-Host $fileContent
         Set-Content -Path $definitionFilePath $fileContent
 	Write-Host $SynapseWorkspaceName
 	Write-Host $pipeline.name
 	Write-Host $definitionFilePath
         Set-AzSynapsePipeline -WorkspaceName $SynapseWorkspaceName -Name $pipeline.name -DefinitionFile $definitionFilePath
-	Invoke-AzSynapsePipeline -WorkspaceName $SynapseWorkspaceName -PipelineName $pipeline.name
+	#Invoke-AzSynapsePipeline -WorkspaceName $SynapseWorkspaceName -PipelineName $pipeline.name
         Remove-Item -Path $definitionFilePath
       }
 
