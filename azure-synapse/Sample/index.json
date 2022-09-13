@@ -136,6 +136,11 @@
                     "interface": "powershell",
                     "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/LinkedServices/nyc_tlc_yellow.json",
                     "tokens": []
+                },
+                {
+                    "name": "AzureBlobStorageAy",
+                    "interface": "rest",
+                    "definitionFilePath": "https://raw.githubusercontent.com/vAyushkhare/Azure/main/TestPipelines/Deploy/modules/newls.json"
                 }
             ]
         }
