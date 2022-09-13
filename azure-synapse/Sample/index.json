@@ -4,67 +4,18 @@
         "artifacts" : {
             "sqlScripts": [
                 {
-                    "name": "01 - Explore Open DataSet with SQL Serverless",
+                    "name": "NYCQueryScript",
                     "interface": "powershell",
-                    "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SQLScripts/Serverless/01.AnalyzeOpenDatasetSQLServerless.sql",
+                    "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SQLScripts/Serverless/NYCQueryScript.sql",
                     "workspaceFolderPath": "OpenDatasets/SQL Serverless",
                     "tokens": [
                         "##azsynapsewks##"
                     ]
                 },
                 {
-                    "name": "02 - Query Parquet Files",
-                    "interface": "powershell",
-                    "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SQLScripts/Serverless/02.QueryParquetFiles.sql",
-                    "workspaceFolderPath": "OpenDatasets/SQL Serverless",
-                    "tokens": []
-                },
-                {
-                    "name": "03 - Query CSV Files",
-                    "interface": "powershell",
-                    "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SQLScripts/Serverless/03.QueryCSVFiles.sql",
-                    "workspaceFolderPath": "OpenDatasets/SQL Serverless",
-                    "tokens": []
-                },
-                {
-                    "name": "04 - Query JSON Files",
-                    "interface": "powershell",
-                    "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SQLScripts/Serverless/04.QueryJSONFiles.sql",
-                    "workspaceFolderPath": "OpenDatasets/SQL Serverless",
-                    "tokens": []
-                },
-                {
-                    "name": "05 - Query Nested Types in JSON and Parquet Files",
-                    "interface": "powershell",
-                    "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SQLScripts/Serverless/05.QueryNestedTypes.sql",
-                    "workspaceFolderPath": "OpenDatasets/SQL Serverless",
-                    "tokens": []
-                },
-                {
-                    "name": "06 - Use file metadata in queries",
-                    "interface": "powershell",
-                    "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SQLScripts/Serverless/06.UseFileMetadata.sql",
-                    "workspaceFolderPath": "OpenDatasets/SQL Serverless",
-                    "tokens": []
-                },
-                {
                     "name": "01 - Load the New York Taxicab dataset",
                     "interface": "powershell",
                     "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SQLScripts/Dedicated/01.LoadNYCTaxiDataset.sql",
-                    "workspaceFolderPath": "OpenDatasets/Dedicated SQL",
-                    "tokens": []
-                },
-                {
-                    "name": "02 - Row-Level Security for dedicated SQL pools",
-                    "interface": "powershell",
-                    "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SQLScripts/Dedicated/02.RowLevelSecurity.sql",
-                    "workspaceFolderPath": "OpenDatasets/Dedicated SQL",
-                    "tokens": []
-                },
-                {
-                    "name": "03 - Scoring machine learning models in dedicated SQL pool",
-                    "interface": "powershell",
-                    "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SQLScripts/Dedicated/03.ScoreML.sql",
                     "workspaceFolderPath": "OpenDatasets/Dedicated SQL",
                     "tokens": []
                 }
