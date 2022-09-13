@@ -265,12 +265,7 @@
                 }
             ],
             "notebooks": [
-                {
-                    "name": "Data Exploration and ML Modeling - NYC taxi predict using Spark MLlib",
-                    "definitionFilePath": "https://raw.githubusercontent.com/Azure/Test-Drive-Azure-Synapse-with-a-1-click-POC/main/synapsepoc/notebook/Data%20Exploration%20and%20ML%20Modeling%20-%20NYC%20taxi%20predict%20using%20Spark%20MLlib.json",
-                    "workspaceFolderPath": "OpenDatasets",
-                    "tokens": []
-                }
+                
             ],
             "linkedServices":[
                 {
