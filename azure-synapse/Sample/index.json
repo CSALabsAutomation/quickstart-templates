@@ -24,49 +24,7 @@
             
             "datasets":[],
             "notebooks": [
-                {
-                    "name": "01 - Using Azure Open Datasets in Synapse",
-                    "interface": "powershell",
-                    "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Notebooks/01-UsingOpenDatasetsSynapse.ipynb",
-                    "workspaceFolderPath": "OpenDatasets",
-                    "tokens": []
-                },
-                {
-                    "name": "02 - Getting Started with Delta Lake",
-                    "interface": "powershell",
-                    "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Notebooks/02-GettingStartedDeltaLake.ipynb",
-                    "workspaceFolderPath": "OpenDatasets",
-                    "tokens": []
-                },
-                {
-                    "name": "03 - Data Exploration and ML Modeling using NYC Taxi dataset",
-                    "interface": "powershell",
-                    "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Notebooks/03-DataExplorationMLModelingNYCTaxi.ipynb",
-                    "workspaceFolderPath": "OpenDatasets",
-                    "tokens": []
-                },
-                {
-                    "name": "04 - Getting Started with Hyperspace Indexing",
-                    "interface": "powershell",
-                    "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Notebooks/04-GettingStartedHyperspaceIndexing.ipynb",
-                    "workspaceFolderPath": "OpenDatasets",
-                    "tokens": []
-                },
-                {
-                    "name": "05 - Read and write data from Azure Data Lake Storage Gen2",
-                    "interface": "powershell",
-                    "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Notebooks/05-ReadWriteADLSGen2.ipynb",
-                    "workspaceFolderPath": "OpenDatasets",
-                    "tokens": []
-                },
-                {
-                    "name": "06 - Charting with Synapse Notebooks",
-                    "interface": "powershell",
-                    "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Notebooks/06-ChartingSynapseNotebook.ipynb",
-                    "workspaceFolderPath": "OpenDatasets",
-                    "tokens": []
-                },
-                {
+               {
                     "name": "create_adworksdb",
                     "interface": "powershell",
                     "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Notebooks/create_adworksdb.ipynb",
@@ -82,12 +40,7 @@
               }
             ],
             "linkedServices":[
-                {
-                    "name": "nyc_tlc_yellow",
-                    "interface": "powershell",
-                    "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/LinkedServices/nyc_tlc_yellow.json",
-                    "tokens": []
-                },
+                
                 {
                     "name": "AzureBlobStorageAy",
                     "interface": "rest",
