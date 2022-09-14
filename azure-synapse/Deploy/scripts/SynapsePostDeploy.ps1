@@ -238,18 +238,10 @@ function Save-SynapseSampleArtifacts{
       foreach($database in $sampleArtifactCollection.artifacts.databases)
       {
         $fileContent = Invoke-WebRequest $database.definitionFilePath
-	$fileContent1 = Invoke-WebRequest $database.definitionFilePath
-	$fileContent2 = Invoke-WebRequest $database.definitionFilePath
-	$fileconstr = '$fileContent1'.ToString()
-	Write-Host $fileconstr
-        $fileconstr.Replace("filesystemay",$RawDataLakeAccountName)
-	Write-Host $fileconstr
-	$fileContent2=$fileContent2 -replace "filesystemay","Viki"
-	Write-Host $fileContent2
-	$test=" old text to be replaced"
-	Write-Host "going to replace old"
-	$test.Replace("old","New")
-	Write-Host $test
+	
+	$fileContent=$fileContent -replace "filesystemay",$RawDataLakeAccountName
+	Write-Host $fileContent
+	
         if ($database.interface.ToLower() -eq "powershell") {
          # ## Action to perform if the condition is true 
         }
