@@ -257,7 +257,7 @@ function Save-SynapseSampleArtifacts{
      		 {
 		 $fileContent = Invoke-WebRequest $table.definitionFilePath
 
-        
+        	 Write-Host $fileContent
 
        		 if ($table.interface.ToLower() -eq "powershell") {
        			  # ## Action to perform if the condition is true 
@@ -265,7 +265,7 @@ function Save-SynapseSampleArtifacts{
       		  elseif ($table.interface.ToLower() -eq "rest")
         		{
           		  Write-Host "Creating table: $($table.name) via REST API"
-          		  $subresource = "tables"
+          		  $subresource = "databases"
           		  $uri1 = "https://$SynapseWorkspaceName.dev.azuresynapse.net/$subresource/$($table.name)?api-version=2020-02-01"
     
          		   #Assign Synapse Workspace Administrator Role to UAMI
