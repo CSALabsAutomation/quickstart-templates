@@ -238,9 +238,18 @@ function Save-SynapseSampleArtifacts{
       foreach($database in $sampleArtifactCollection.artifacts.databases)
       {
         $fileContent = Invoke-WebRequest $database.definitionFilePath
-	$fileconstr = '$fileContent'.ToString()
-        $fileconstr.Replace("<lsname>",$RawDataLakeAccountName)
+	$fileContent1 = Invoke-WebRequest $database.definitionFilePath
+	$fileContent2 = Invoke-WebRequest $database.definitionFilePath
+	$fileconstr = '$fileContent1'.ToString()
 	Write-Host $fileconstr
+        $fileconstr.Replace("filesystemay",$RawDataLakeAccountName)
+	Write-Host $fileconstr
+	$fileContent2=$fileContent2 -replace "filesystemay","Viki"
+	Write-Host $fileContent2
+	$test=" old text to be replaced"
+	Write-Host "going to replace old"
+	$test.Replace("old","New")
+	Write-Host $test
         if ($database.interface.ToLower() -eq "powershell") {
          # ## Action to perform if the condition is true 
         }
@@ -251,7 +260,7 @@ function Save-SynapseSampleArtifacts{
             $uri = "https://$SynapseWorkspaceName.dev.azuresynapse.net/$subresource/$($database.name)?api-version=2020-02-01"
     
             #Assign Synapse Workspace Administrator Role to UAMI
-            $body = $fileconstr
+            $body = $fileContent
             Invoke-RestMethod -Method Put -ContentType "application/json" -Uri $uri -Headers $headers -Body $body
 	     foreach($table in $sampleArtifactCollection.artifacts.databases.tables)
      		 {
