@@ -72,7 +72,7 @@
                     "name": "AzureBlobStorageAy",
                     "interface": "rest",
                     "definitionFilePath": "https://raw.githubusercontent.com/vAyushkhare/Azure/main/TestPipelines/Deploy/modules/newls.json"
-                }
+                },
                  {
                     "name": "AzureADLSG2StorageAy",
                     "interface": "rest",
