@@ -247,7 +247,7 @@ function Save-SynapseSampleArtifacts{
         elseif ($database.interface.ToLower() -eq "rest")
         {
             Write-Host "Creating database: $($database.name) via REST API"
-            $subresource = "dataflows"
+            $subresource = "databases"
             $uri = "https://$SynapseWorkspaceName.dev.azuresynapse.net/$subresource/$($database.name)?api-version=2020-02-01"
     
             #Assign Synapse Workspace Administrator Role to UAMI
