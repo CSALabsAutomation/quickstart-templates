@@ -423,6 +423,109 @@ $ctx7 = New-AzStorageContext -StorageAccountName $RawDataLakeAccountName -Storag
 Invoke-WebRequest -Uri $uri7 -OutFile $bacpacFileName7 
 Set-AzStorageBlobContent -File $bacpacFileName7 -Container "raw" -Blob 'yellow/puYear=2022/puMonth=01/yellow.parquet' -Context $ctx7
 
+  Write-Host "-----------------------------------------------------------Synapse retail files---------------------------------------------------------------"
+
+$uri8 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SynapseRetailFiles/Calendar.csv";
+$bacpacFileName8 = "Calendar.csv";
+#$storageaccount8 = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
+$storageaccountkey8 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $RawDataLakeAccountName;
+
+$ctx8 = New-AzStorageContext -StorageAccountName $RawDataLakeAccountName -StorageAccountKey $storageaccountkey8.Value[0]
+
+Invoke-WebRequest -Uri $uri8 -OutFile $bacpacFileName8 
+Set-AzStorageBlobContent -File $bacpacFileName8 -Container "raw" -Blob 'SynapseRetailFiles/Calendar.csv' -Context $ctx8
+
+$uri9 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SynapseRetailFiles/ChannelType.csv";
+$bacpacFileName9 = "ChannelType.csv";
+#$storageaccount9 = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
+$storageaccountkey9 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $RawDataLakeAccountName;
+
+$ctx9 = New-AzStorageContext -StorageAccountName $RawDataLakeAccountName -StorageAccountKey $storageaccountkey9.Value[0]
+
+Invoke-WebRequest -Uri $uri9 -OutFile $bacpacFileName9 
+Set-AzStorageBlobContent -File $bacpacFileName9 -Container "raw" -Blob 'SynapseRetailFiles/ChannelType.csv' -Context $ctx9
+
+$uri10 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SynapseRetailFiles/Country.csv";
+$bacpacFileName10 = "Country.csv";
+#$storageaccount10 = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
+$storageaccountkey10 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $RawDataLakeAccountName;
+
+$ctx10 = New-AzStorageContext -StorageAccountName $RawDataLakeAccountName -StorageAccountKey $storageaccountkey10.Value[0]
+
+Invoke-WebRequest -Uri $uri10 -OutFile $bacpacFileName10 
+Set-AzStorageBlobContent -File $bacpacFileName10 -Container "raw" -Blob 'SynapseRetailFiles/Country.csv' -Context $ctx10
+
+$uri11 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SynapseRetailFiles/CustomerData.csv";
+$bacpacFileName11 = "CustomerData.csv";
+#$storageaccount11 = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
+$storageaccountkey11 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $RawDataLakeAccountName;
+
+$ctx11 = New-AzStorageContext -StorageAccountName $RawDataLakeAccountName -StorageAccountKey $storageaccountkey11.Value[0]
+
+Invoke-WebRequest -Uri $uri11 -OutFile $bacpacFileName11
+Set-AzStorageBlobContent -File $bacpacFileName11 -Container "raw" -Blob 'SynapseRetailFiles/CustomerData.csv' -Context $ctx11
+
+$uri12 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SynapseRetailFiles/Location.csv";
+$bacpacFileName12 = "Location.csv";
+#$storageaccount12 = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
+$storageaccountkey12 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $RawDataLakeAccountName;
+
+$ctx12 = New-AzStorageContext -StorageAccountName $RawDataLakeAccountName -StorageAccountKey $storageaccountkey12.Value[0]
+
+Invoke-WebRequest -Uri $uri12 -OutFile $bacpacFileName12
+Set-AzStorageBlobContent -File $bacpacFileName12 -Container "raw" -Blob 'SynapseRetailFiles/Location.csv' -Context $ctx12
+
+$uri13 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SynapseRetailFiles/ProductData.csv";
+$bacpacFileName13 = "ProductData.csv";
+#$storageaccount13 = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
+$storageaccountkey13 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $RawDataLakeAccountName;
+
+$ctx13 = New-AzStorageContext -StorageAccountName $RawDataLakeAccountName -StorageAccountKey $storageaccountkey13.Value[0]
+
+Invoke-WebRequest -Uri $uri13 -OutFile $bacpacFileName13 
+Set-AzStorageBlobContent -File $bacpacFileName13 -Container "raw" -Blob 'SynapseRetailFiles/ProductData.csv' -Context $ctx13
+
+$uri14 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SynapseRetailFiles/Reseller.csv";
+$bacpacFileName14 = "Reseller.csv";
+#$storageaccount14 = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
+$storageaccountkey14 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $RawDataLakeAccountName;
+
+$ctx14 = New-AzStorageContext -StorageAccountName $RawDataLakeAccountName -StorageAccountKey $storageaccountkey14.Value[0]
+
+Invoke-WebRequest -Uri $uri14 -OutFile $bacpacFileName14 
+Set-AzStorageBlobContent -File $bacpacFileName14 -Container "raw" -Blob 'SynapseRetailFiles/Reseller.csv' -Context $ctx14
+
+$uri15 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SynapseRetailFiles/Sales.csv";
+$bacpacFileName15 = "Sales.csv";
+#$storageaccount15 = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
+$storageaccountkey15 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $RawDataLakeAccountName;
+
+$ctx15 = New-AzStorageContext -StorageAccountName $RawDataLakeAccountName -StorageAccountKey $storageaccountkey15.Value[0]
+
+Invoke-WebRequest -Uri $uri15 -OutFile $bacpacFileName15
+Set-AzStorageBlobContent -File $bacpacFileName15 -Container "raw" -Blob 'SynapseRetailFiles/Sales.csv' -Context $ctx15
+
+$uri16 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SynapseRetailFiles/SalesOrder.csv";
+$bacpacFileName16 = "SalesOrder.csv";
+#$storageaccount16 = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
+$storageaccountkey16 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $RawDataLakeAccountName;
+
+$ctx16 = New-AzStorageContext -StorageAccountName $RawDataLakeAccountName -StorageAccountKey $storageaccountkey16.Value[0]
+
+Invoke-WebRequest -Uri $uri16 -OutFile $bacpacFileName16 
+Set-AzStorageBlobContent -File $bacpacFileName16 -Container "raw" -Blob 'SynapseRetailFiles/SalesOrder.csv' -Context $ctx16
+
+
+$uri17 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SynapseRetailFiles/SalesTerritory.csv";
+$bacpacFileName17 = "SalesTerritory.csv";
+#$storageaccount17 = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
+$storageaccountkey17 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $RawDataLakeAccountName;
+
+$ctx17 = New-AzStorageContext -StorageAccountName $RawDataLakeAccountName -StorageAccountKey $storageaccountkey17.Value[0]
+
+Invoke-WebRequest -Uri $uri17 -OutFile $bacpacFileName17 
+Set-AzStorageBlobContent -File $bacpacFileName17 -Container "raw" -Blob 'SynapseRetailFiles/SalesTerritory.csv' -Context $ctx17
+
 Write-Host "copying CSV files Completed." 
 }
 
