@@ -11,10 +11,10 @@
 		},
 		"Source": {
 			"Provider": "ADLS",
-			"Location": "abfss://filesystemay@aksadlsstorage.dfs.core.windows.net/Synapse Retail/ParquetFiles",
+			"Location": "abfss://raw@<lsname>.dfs.core.windows.net/yellow",
 			"Properties": {
 				"FormatType": "parquet",
-				"LinkedServiceName": "AzureADLSG2StorageAy"
+				"LinkedServiceName": "<lsname>"
 			}
 		},
 		"PublishStatus": "PUBLISHED",
