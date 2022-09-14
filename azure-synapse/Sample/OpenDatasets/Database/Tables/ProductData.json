@@ -125,18 +125,11 @@
 				"FormatType": "parquet",
 				"SerializeLib": "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe",
 				"Properties": {
-					"path": "",
+					"path": "abfss://filesystemay@aksadlsstorage.dfs.core.windows.net/Synapse Retail/ParquetFiles/ProductData.parquet",
 					"FormatTypeSetToDatabaseDefault": false
 				}
 			},
-			"Source": {
-				"Provider": "ADLS",
-				"Location": "",
-				"Properties": {
-					"LinkedServiceName": "AzureBlobStorageAy",
-					"LocationSetToDatabaseDefault": false
-				}
-			},
+			
 			"Properties": {
 				"textinputformat.record.delimiter": ",",
 				"compression": "{\"type\":\"None\",\"level\":\"optimal\"}",
