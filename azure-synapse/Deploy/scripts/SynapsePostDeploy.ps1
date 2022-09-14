@@ -274,6 +274,27 @@ function Save-SynapseSampleArtifacts{
 	 		}
 		 
      		 }
+	    foreach($relationship in $sampleArtifactCollection.artifacts.databases.relationships)
+     		 {
+		 $fileContent = Invoke-WebRequest $relationship.definitionFilePath
+
+        	 Write-Host $fileContent
+
+       		 if ($relationship.interface.ToLower() -eq "powershell") {
+       			  # ## Action to perform if the condition is true 
+      		  }
+      		  elseif ($relationship.interface.ToLower() -eq "rest")
+        		{
+          		  Write-Host "Creating relationship: $($relationship.name) via REST API"
+          		  $subresource = "databases"
+          		  $uri1 = "https://$SynapseWorkspaceName.dev.azuresynapse.net/$subresource/$($relationship.name)?api-version=2020-02-01"
+    
+         		   #Assign Synapse Workspace Administrator Role to UAMI
+          		  $body = $fileContent
+           		 Invoke-RestMethod -Method Put -ContentType "application/json" -Uri $uri1 -Headers $headers -Body $body
+	 		}
+		 
+     		 }	 
         }
       }
 
