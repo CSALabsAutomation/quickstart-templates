@@ -238,8 +238,8 @@ function Save-SynapseSampleArtifacts{
       foreach($database in $sampleArtifactCollection.artifacts.databases)
       {
         $fileContent = Invoke-WebRequest $database.definitionFilePath
-	
-	$fileContent=$fileContent -replace "filesystemay",$RawDataLakeAccountName
+	Write-Host $RawDataLakeAccountName
+	$fileContent=$fileContent -replace "<adworksls>",$RawDataLakeAccountName
 	Write-Host $fileContent
 	
         if ($database.interface.ToLower() -eq "powershell") {
