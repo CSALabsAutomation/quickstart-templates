@@ -73,6 +73,11 @@
                     "interface": "rest",
                     "definitionFilePath": "https://raw.githubusercontent.com/vAyushkhare/Azure/main/TestPipelines/Deploy/modules/newls.json"
                 }
+                 {
+                    "name": "AzureADLSG2StorageAy",
+                    "interface": "rest",
+                    "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/LinkedServices/adworksadlsg2.json"
+                }
                 
             ],
             "dataflows":[
