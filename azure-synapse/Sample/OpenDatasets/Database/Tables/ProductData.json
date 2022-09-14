@@ -125,13 +125,13 @@
 				"FormatType": "parquet",
 				"SerializeLib": "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe",
 				"Properties": {
-					"path": "abfss://filesystemay@aksadlsstorage.dfs.core.windows.net/Synapse Retail/ParquetFiles/ProductData.parquet",
+					"path": "",
 					"FormatTypeSetToDatabaseDefault": false
 				}
 			},
 			"Source": {
 				"Provider": "ADLS",
-				"Location": "abfss://filesystemay@aksadlsstorage.dfs.core.windows.net/Synapse Retail/ParquetFiles/ProductData.parquet",
+				"Location": "",
 				"Properties": {
 					"LinkedServiceName": "AzureBlobStorageAy",
 					"LocationSetToDatabaseDefault": false
