@@ -14,7 +14,7 @@
 			"Location": "abfss://filesystemay@aksadlsstorage.dfs.core.windows.net/Synapse Retail/ParquetFiles",
 			"Properties": {
 				"FormatType": "parquet",
-				"LinkedServiceName": "AzureBlobStorageAy"
+				"LinkedServiceName": "AzureADLSG2StorageAy"
 			}
 		},
 		"PublishStatus": "PUBLISHED",
