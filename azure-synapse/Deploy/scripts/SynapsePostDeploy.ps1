@@ -253,6 +253,27 @@ function Save-SynapseSampleArtifacts{
             #Assign Synapse Workspace Administrator Role to UAMI
             $body = $fileContent
             Invoke-RestMethod -Method Put -ContentType "application/json" -Uri $uri -Headers $headers -Body $body
+	     foreach($table in $sampleArtifactCollection.artifacts.databases.tables)
+     		 {
+		 $fileContent = Invoke-WebRequest $table.definitionFilePath
+
+        
+
+       		 if ($table.interface.ToLower() -eq "powershell") {
+       			  # ## Action to perform if the condition is true 
+      		  }
+      		  elseif ($table.interface.ToLower() -eq "rest")
+        		{
+          		  Write-Host "Creating table: $($table.name) via REST API"
+          		  $subresource = "tables"
+          		  $uri1 = "https://$SynapseWorkspaceName.dev.azuresynapse.net/$subresource/$($table.name)?api-version=2020-02-01"
+    
+         		   #Assign Synapse Workspace Administrator Role to UAMI
+          		  $body = $fileContent
+           		 Invoke-RestMethod -Method Put -ContentType "application/json" -Uri $uri1 -Headers $headers -Body $body
+	 		}
+		 
+     		 }
         }
       }
 
