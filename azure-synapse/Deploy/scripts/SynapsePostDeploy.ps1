@@ -239,8 +239,8 @@ function Save-SynapseSampleArtifacts{
       {
         $fileContent = Invoke-WebRequest $database.definitionFilePath
 
-        
-
+        $fileContent.replace('<lsname>',$RawDataLakeAccountName)
+	Write-Host $fileContent
         if ($database.interface.ToLower() -eq "powershell") {
          # ## Action to perform if the condition is true 
         }
