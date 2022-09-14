@@ -231,6 +231,31 @@ function Save-SynapseSampleArtifacts{
         Remove-Item -Path $definitionFilePath
       }
 
+      #Create Database artifacts.
+      
+      Write-Host "Deploying Database Scripts:"
+      Write-Host "-----------------------------------------------------------------------"
+      foreach($database in $sampleArtifactCollection.artifacts.databases)
+      {
+        $fileContent = Invoke-WebRequest $database.definitionFilePath
+
+        
+
+        if ($database.interface.ToLower() -eq "powershell") {
+         # ## Action to perform if the condition is true 
+        }
+        elseif ($database.interface.ToLower() -eq "rest")
+        {
+            Write-Host "Creating database: $($database.name) via REST API"
+            $subresource = "dataflows"
+            $uri = "https://$SynapseWorkspaceName.dev.azuresynapse.net/$subresource/$($database.name)?api-version=2020-02-01"
+    
+            #Assign Synapse Workspace Administrator Role to UAMI
+            $body = $fileContent
+            Invoke-RestMethod -Method Put -ContentType "application/json" -Uri $uri -Headers $headers -Body $body
+        }
+      }
+
       #Create Dataset artifacts.
       Write-Host "Deploying Datasets:"
       Write-Host "-----------------------------------------------------------------------"
