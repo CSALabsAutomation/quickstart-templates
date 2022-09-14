@@ -121,12 +121,12 @@
                         {
                             "name": "ProductData",
                             "interface": "rest",
-                            "definitionFilePath": "https://raw.githubusercontent.com/vAyushkhare/Azure/main/TestPipelines/Sample/database/adworks/table/ProductData.json"
+                            "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Database/Tables/ProductData.json"
                         },
                         {
                             "name": "Sales",
                             "interface": "rest",
-                            "definitionFilePath": "https://raw.githubusercontent.com/jchinchillaMSFT/ww-csu-psk-synapse-retail/main/database/adworks/table/Sales.json"
+                            "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Database/Tables/Sales.json"
                         }
                     ],
                     "relationships":[
