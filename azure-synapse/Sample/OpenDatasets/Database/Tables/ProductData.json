@@ -129,7 +129,14 @@
 					"FormatTypeSetToDatabaseDefault": false
 				}
 			},
-			
+			"Source": {
+				"Provider": "ADLS",
+				"Location": "abfss://filesystemay@aksadlsstorage.dfs.core.windows.net/Synapse Retail/ParquetFiles/Sales.parquet",
+				"Properties": {
+					"LinkedServiceName": "AzureBlobStorageAy",
+					"LocationSetToDatabaseDefault": false
+				}
+			},
 			"Properties": {
 				"textinputformat.record.delimiter": ",",
 				"compression": "{\"type\":\"None\",\"level\":\"optimal\"}",
