@@ -127,6 +127,31 @@
                             "name": "Sales",
                             "interface": "rest",
                             "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Database/Tables/Sales.json"
+                        },
+                        {
+                            "name": "Calendar",
+                            "interface": "rest",
+                            "definitionFilePath": "https://raw.githubusercontent.com/jchinchillaMSFT/ww-csu-psk-synapse-retail/main/database/adworks/table/Calendar.json"
+                        },
+                        {
+                            "name": "InternetCustomer",
+                            "interface": "rest",
+                            "definitionFilePath": "https://raw.githubusercontent.com/jchinchillaMSFT/ww-csu-psk-synapse-retail/main/database/adworks/table/InternetCustomer.json"
+                        },
+                        {
+                            "name": "Location",
+                            "interface": "rest",
+                            "definitionFilePath": "https://raw.githubusercontent.com/jchinchillaMSFT/ww-csu-psk-synapse-retail/main/database/adworks/table/Location.json"
+                        },
+                        {
+                            "name": "Reseller",
+                            "interface": "rest",
+                            "definitionFilePath": "https://raw.githubusercontent.com/jchinchillaMSFT/ww-csu-psk-synapse-retail/main/database/adworks/table/Reseller.json"
+                        },
+                        {
+                            "name": "SalesTerritory",
+                            "interface": "rest",
+                            "definitionFilePath": "https://raw.githubusercontent.com/jchinchillaMSFT/ww-csu-psk-synapse-retail/main/database/adworks/table/SalesTerritory.json"
                         }
                     ],
                     "relationships":[
