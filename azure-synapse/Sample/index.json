@@ -162,10 +162,26 @@
                     "relationships":[
                         
                         {
-                            "name": "relationship-somtklqqvv",
+                            "name": "relationship-SalesCustomerData",
                             "interface": "rest",
-                            "definitionFilePath": "https://raw.githubusercontent.com/jchinchillaMSFT/ww-csu-psk-synapse-retail/main/database/adworks/relationship/relationship-somtklqqvv.json"
+                            "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Database/Relatioship/rsSalesCustomerData.json"
+                        },
+                        {
+                            "name": "relationship-SalesDate",
+                            "interface": "rest",
+                            "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Database/Relatioship/rsSalesDate.json"
+                        },
+                        {
+                            "name": "relationship-SalesProductData",
+                            "interface": "rest",
+                            "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Database/Relatioship/rsSalesProductData.json"
+                        },
+                        {
+                            "name": "relationship-SalesReseller",
+                            "interface": "rest",
+                            "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Database/Relatioship/rsSalesReseller.json"
                         }
+                        
                        
                     ]
                 }
