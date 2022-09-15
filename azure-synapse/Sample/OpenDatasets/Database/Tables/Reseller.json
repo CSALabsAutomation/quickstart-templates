@@ -104,13 +104,13 @@
 				"FormatType": "parquet",
 				"SerializeLib": "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe",
 				"Properties": {
-					"path": "abfss://raw@<adworksls>.dfs.core.windows.net/SynapseRetailFiles/Reseller.parquet",
+					"path": "abfss://raw@<adworksls>.dfs.core.windows.net/SynapseRetailFiles/Reseller",
 					"FormatTypeSetToDatabaseDefault": false
 				}
 			},
 			"Source": {
 				"Provider": "ADLS",
-				"Location": "abfss://raw@<adworksls>.dfs.core.windows.net/SynapseRetailFiles/Reseller.parquet",
+				"Location": "abfss://raw@<adworksls>.dfs.core.windows.net/SynapseRetailFiles/Reseller",
 				"Properties": {
 					"LinkedServiceName": "<adworksls>",
 					"LocationSetToDatabaseDefault": false
