@@ -139,9 +139,9 @@
                             "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Database/Tables/Calendar.json"
                         },
                         {
-                            "name": "InternetCustomer",
+                            "name": "CustomerData",
                             "interface": "rest",
-                            "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Database/Tables/InternetCustomer.json"
+                            "definitionFilePath": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/Database/Tables/CustomerData.json"
                         },
                         {
                             "name": "Location",
