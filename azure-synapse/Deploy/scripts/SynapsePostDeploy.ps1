@@ -563,7 +563,7 @@ $ctx14 = New-AzStorageContext -StorageAccountName $RawDataLakeAccountName -Stora
 Invoke-WebRequest -Uri $uri14 -OutFile $bacpacFileName14 
 Set-AzStorageBlobContent -File $bacpacFileName14 -Container "raw" -Blob 'SynapseRetailFiles/Reseller.csv' -Context $ctx14
 
-$uri15 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SynapseRetailFiles/Sales.parquet";
+$uri15 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SynapseRetailFiles/Sales.csv";
 $bacpacFileName15 = "Sales.parquet";
 #$storageaccount15 = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
 $storageaccountkey15 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $RawDataLakeAccountName;
