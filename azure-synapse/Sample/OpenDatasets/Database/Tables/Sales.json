@@ -190,15 +190,15 @@
 				"FormatType": "parquet",
 				"SerializeLib": "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe",
 				"Properties": {
-					"path": "abfss://filesystemay@aksadlsstorage.dfs.core.windows.net/Synapse Retail/ParquetFiles/Sales.parquet",
+					"path": "abfss://raw@<adworksls>.dfs.core.windows.net/SynapseRetailFiles/Sales.parquet",
 					"FormatTypeSetToDatabaseDefault": false
 				}
 			},
 			"Source": {
 				"Provider": "ADLS",
-				"Location": "abfss://filesystemay@aksadlsstorage.dfs.core.windows.net/Synapse Retail/ParquetFiles/Sales.parquet",
+				"Location": "abfss://raw@<adworksls>.dfs.core.windows.net/SynapseRetailFiles/Sales.parquet",
 				"Properties": {
-					"LinkedServiceName": "AzureBlobStorageAy",
+					"LinkedServiceName": "<adworksls>",
 					"LocationSetToDatabaseDefault": false
 				}
 			},
