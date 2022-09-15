@@ -563,15 +563,15 @@ $ctx14 = New-AzStorageContext -StorageAccountName $RawDataLakeAccountName -Stora
 Invoke-WebRequest -Uri $uri14 -OutFile $bacpacFileName14 
 Set-AzStorageBlobContent -File $bacpacFileName14 -Container "raw" -Blob 'SynapseRetailFiles/Reseller.csv' -Context $ctx14
 
-$uri15 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SynapseRetailFiles/Sales.csv";
-$bacpacFileName15 = "Sales.csv";
+$uri15 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SynapseRetailFiles/Sales.parquet";
+$bacpacFileName15 = "Sales.parquet";
 #$storageaccount15 = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
 $storageaccountkey15 = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $RawDataLakeAccountName;
 
 $ctx15 = New-AzStorageContext -StorageAccountName $RawDataLakeAccountName -StorageAccountKey $storageaccountkey15.Value[0]
 
 Invoke-WebRequest -Uri $uri15 -OutFile $bacpacFileName15
-Set-AzStorageBlobContent -File $bacpacFileName15 -Container "raw" -Blob 'SynapseRetailFiles/Sales.csv' -Context $ctx15
+Set-AzStorageBlobContent -File $bacpacFileName15 -Container "raw" -Blob 'SynapseRetailFiles/Sales.parquet' -Context $ctx15
 
 $uri16 = "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-synapse/Sample/OpenDatasets/SynapseRetailFiles/SalesOrder.csv";
 $bacpacFileName16 = "SalesOrder.csv";
