@@ -29,6 +29,9 @@ else
 	Import-Module -Name SqlServer;
 }
 
+$ProgressPreference = 'SilentlyContinue'; Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile .\AzureCLI.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'; rm .\AzureCLI.msi
+Install-AzAksKubectl -Version latest
+
 $fileList = Invoke-Sqlcmd `
                     -QueryTimeout 0 `
                     -ServerInstance . `
