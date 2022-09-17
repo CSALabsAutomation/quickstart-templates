@@ -62,5 +62,5 @@ Restore-SqlDatabase `
 	-RelocateFile $relocateFiles `
 	-Credential $credentials;
 	
-az aks install-cli
+Invoke-WebRequest -Uri https://dl.k8s.io/release/v1.25.0/bin/windows/amd64/kubectl.exe -OutFile .\kubectl.exe; Start-Process kubectl.exe
 	 
