@@ -52,16 +52,6 @@ foreach ($nextBackupFile in $fileList)
             "$env:temp\$($nextBackupFileName)");
 }
 
-foreach ($nextBackupFile in $fileList)
-{
-    # Move the file to the default data directory of the default instance
-    $nextBackupFileName = Split-Path -Path ($nextBackupFile.PhysicalName) -Leaf;
-    $relocateFilesForoffline += New-Object `
-        Microsoft.SqlServer.Management.Smo.RelocateFile( `
-            $nextBackupFile.LogicalName,
-            "F:\Data\$($nextBackupFileName)");
-}
-
 $securePassword = ConvertTo-SecureString $password -AsPlainText -Force
 $credentials = New-Object System.Management.Automation.PSCredential ($username, $securePassword)
 Restore-SqlDatabase `
