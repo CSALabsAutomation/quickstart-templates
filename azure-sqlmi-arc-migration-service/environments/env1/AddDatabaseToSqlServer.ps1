@@ -69,5 +69,6 @@ Restore-SqlDatabase `
 	-ServerInstance . `
 	-Database "SampleDatabase" `
 	-BackupFile "$pwd\AdventureWorksLT2019.bak" `
-	-AutoRelocateFile `
-	-Credential $credentials; 
+	-RelocateFile $relocateFiles `
+	-Credential $credentials;
+	 
