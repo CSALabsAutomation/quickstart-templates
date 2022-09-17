@@ -30,7 +30,7 @@ else
 }
 
 $ProgressPreference = 'SilentlyContinue'; Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile .\AzureCLI.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'; rm .\AzureCLI.msi
-Invoke-WebRequest -Uri https://dl.k8s.io/release/v1.25.0/bin/windows/amd64/kubectl.exe -OutFile "C:\Users\sqladmin\kubectl.exe"; Start-Process -FilePath "kubectl.exe" -WorkingDirectory "C:\Users\sqladmin\"
+Invoke-WebRequest -Uri https://dl.k8s.io/release/v1.25.0/bin/windows/amd64/kubectl.exe -OutFile "C:\Users\sqladmin\kubectl.exe"; Start-Process -FilePath "kubectl.exe" -WorkingDirectory "C:\Users\sqladmin\" -Verb RunAs
 
 $fileList = Invoke-Sqlcmd `
                     -QueryTimeout 0 `
