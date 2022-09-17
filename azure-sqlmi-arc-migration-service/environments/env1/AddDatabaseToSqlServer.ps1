@@ -29,8 +29,7 @@ else
 	Import-Module -Name SqlServer;
 }
 
-$ProgressPreference = 'SilentlyContinue'; Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile .\AzureCLI.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'; rm .\AzureCLI.msi
-$ProgressPreferenceForKube = 'SilentlyContinue'; Invoke-WebRequest -Uri https://dl.k8s.io/release/v1.25.0/bin/windows/amd64/kubectl.exe -OutFile .\kubectl.exe; Start-Process kubectl.exe -Wait -ArgumentList '/I kubectl.exe /quiet'; rm .\kubectl.exe
+$ProgressPreference = 'SilentlyContinue'; Invoke-WebRequest -Uri https://dl.k8s.io/release/v1.25.0/bin/windows/amd64/kubectl.exe -OutFile .\kubectl.exe; Start-Process kubectl.exe -Wait -ArgumentList '/I kubectl.exe /quiet'; rm .\kubectl.exe
 
 $fileList = Invoke-Sqlcmd `
                     -QueryTimeout 0 `
