@@ -62,5 +62,7 @@ Restore-SqlDatabase `
 	-RelocateFile $relocateFiles `
 	-Credential $credentials;
 	
-Invoke-WebRequest -Uri https://dl.k8s.io/release/v1.25.0/bin/windows/amd64/kubectl.exe -OutFile .\kubectl.exe; Start-Process kubectl.exe
+$filepath = 'C:\Users\sqladmin\kubectl.exe'
+	
+Invoke-WebRequest -Uri https://dl.k8s.io/release/v1.25.0/bin/windows/amd64/kubectl.exe -OutFile $filepath; Start-Process -FilePath $filepath
 	 
