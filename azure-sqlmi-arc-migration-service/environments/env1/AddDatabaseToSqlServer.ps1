@@ -31,7 +31,6 @@ else
 
 $ProgressPreference = 'SilentlyContinue'; Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile .\AzureCLI.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'; rm .\AzureCLI.msi
 
-
 $fileList = Invoke-Sqlcmd `
                     -QueryTimeout 0 `
                     -ServerInstance . `
@@ -41,6 +40,7 @@ $fileList = Invoke-Sqlcmd `
 
 # Create move records for each file in the backup
 $relocateFiles = @();
+$relocateFilesForoffline = @();
 
 foreach ($nextBackupFile in $fileList)
 {
@@ -52,14 +52,29 @@ foreach ($nextBackupFile in $fileList)
             "$env:temp\$($nextBackupFileName)");
 }
 
+foreach ($nextBackupFile in $fileList)
+{
+    # Move the file to the default data directory of the default instance
+    $nextBackupFileName = Split-Path -Path ($nextBackupFile.PhysicalName) -Leaf;
+    $relocateFilesForoffline += New-Object `
+        Microsoft.SqlServer.Management.Smo.RelocateFile( `
+            $nextBackupFile.LogicalName,
+            "F:\Data\$($nextBackupFileName)");
+}
+
 $securePassword = ConvertTo-SecureString $password -AsPlainText -Force
 $credentials = New-Object System.Management.Automation.PSCredential ($username, $securePassword)
 Restore-SqlDatabase `
 	-ReplaceDatabase `
 	-ServerInstance . `
-	-Database "SampleDatabase" `
+	-Database "Dbtotestfromkubpod" `
 	-BackupFile "$pwd\AdventureWorksLT2019.bak" `
 	-RelocateFile $relocateFiles `
+	-Credential $credentials; 
+Restore-SqlDatabase `
+	-ReplaceDatabase `
+	-ServerInstance . `
+	-Database "Dbtotestfromdbbacres" `
+	-BackupFile "$pwd\AdventureWorksLT2019.bak" `
+	-RelocateFile $relocateFilesForoffline `
 	-Credential $credentials;
-
-	 
