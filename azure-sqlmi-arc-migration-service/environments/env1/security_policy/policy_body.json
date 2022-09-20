@@ -86,7 +86,12 @@
         "Microsoft.Storage/storageAccounts/blobServices",
         "Microsoft.Storage/storageAccounts/blobServices/containers",
         "Microsoft.Sql/managedInstances",
-        "Microsoft.Network/routeTables"
+        "Microsoft.Network/routeTables",
+        "Microsoft.ContainerService/managedClusters",
+        "Microsoft.Kubernetes/connectedClusters",
+        "Microsoft.ExtendedLocation/customLocations",
+        "Microsoft.AzureArcData/DataControllers",
+        "Microsoft.AzureArcData/SqlManagedInstances"
       ]
     }
   }
