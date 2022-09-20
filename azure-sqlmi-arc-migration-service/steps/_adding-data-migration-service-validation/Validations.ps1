@@ -3,24 +3,57 @@ param(
     $Resourcegroupname
 )
 
-if ((Get-Module -ListAvailable Az.DataMigration) -eq $null)
-	{
-       Install-Module -Name Az.DataMigration -RequiredVersion 0.7.4 -Force
-    }
 
-$dmsinstance = Get-AzDataMigrationSqlServiceMigration -ResourceGroupName $Resourcegroupname -SqlMigrationServiceName "onlinedms";
-$resultonline = $dmsinstance.MigrationStatus;
+$aksname = Get-AzResource -ResourceGroupName $Resourcegroupname -Resourcetype Microsoft.ContainerService/managedClusters;
+$arcenabledaksname = Get-AzResource -ResourceGroupName $Resourcegroupname -Resourcetype Microsoft.Kubernetes/connectedClusters;
+$custlocname = Get-AzResource -ResourceGroupName $Resourcegroupname -Resourcetype Microsoft.ExtendedLocation/customLocations;
+$dcname = Get-AzResource -ResourceGroupName $Resourcegroupname -Resourcetype Microsoft.AzureArcData/DataControllers;
+$sqlminame = Get-AzResource -ResourceGroupName $Resourcegroupname -Resourcetype Microsoft.AzureArcData/SqlManagedInstances;
 
-if ($resultonline -eq "Succeeded") { 
-    Write-Host "online migration activity completed" }
-else { Write-Host "Please complete online migration activity" }
+if ($aksname)
+{
+    Write-Host "Aks created"
+}
+else
+{
+    Write-Host "Aks not created"
+}
 
-$dmsinstance = Get-AzDataMigrationSqlServiceMigration -ResourceGroupName $Resourcegroupname -SqlMigrationServiceName "offlinedms";
-$resultoffline = $dmsinstance.MigrationStatus;
+if ($arcenabledaksname)
+{
+    Write-Host "Arc enabled Aks created"
+}
+else
+{
+    Write-Host "Arc enabled Aks not created"
+}
 
-if ($resultoffline -eq "Succeeded") { 
-    Write-Host "offline migration activity completed" }
-else { Write-Host "Please complete offline migration activity" }
+if ($custlocname)
+{
+    Write-Host "Arc enabled Custom location created"
+}
+else
+{
+    Write-Host "Arc enabled Custom location not created"
+}
+
+if ($dcname)
+{
+    Write-Host "Arc enabled data controller created"
+}
+else 
+{
+    Write-Host "AkArc enabled data controller not created"
+}
+
+if ($sqlminame)
+{
+    Write-Host "Arc enabled sqlmi created"
+}
+else
+{
+    Write-Host "Arc enabled sqlmi not created"
+}
 
 
 
