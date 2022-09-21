@@ -1,6 +1,6 @@
-title: Migrating an On-Premise SQL Server to Azure SQL Manged Instance with Azure DMS
-slug: on-premise-sql-server-azure-sql-db
-short_description: Learn how to migrate from an On-Premise SQL Server to Azure SQL Manged Instance in this lab.
+title: Migrating an On-Premise SQL Server to Arc Enabled Azure SQL Manged Instance
+slug: on-premise-sql-server-azure-sql-mi
+short_description: Learn how to migrate from an On-Premise SQL Server to Arc Enabled Azure SQL Manged Instance in this lab.
 lab_features: # cloud-environment|remote-desktop|cli|code-ide
   - cloud-environment
 duration: 3600
