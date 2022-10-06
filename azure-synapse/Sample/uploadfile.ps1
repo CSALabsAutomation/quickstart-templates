@@ -9,12 +9,12 @@ Write-Host "file upload script called"
     }
 #$Resourcegroupname = "ayush-e2e-purview-lab18";
 #$RawDataLakeAccountName = "pvlab18adls";
-$uri = "https://raw.githubusercontent.com/CSALabsAutomation/azure-synapse-labs/main/environments/env1/Sample/Artifacts/TaxiDataFiles/Geography.csv";
-$bacpacFileName = "Geography.csv";
+$uri = "https://raw.githubusercontent.com/CSALabsAutomation/azure-purview-labs/main/environments/env1/Artifacts/import-terms-sample.csv";
+$bacpacFileName = "import-terms-sample.csv";
 
 $storageaccountkey = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $RawDataLakeAccountName;
 
 $ctx = New-AzStorageContext -StorageAccountName $RawDataLakeAccountName -StorageAccountKey $storageaccountkey.Value[0]
 
-Invoke-WebRequest -Uri $uri -OutFile $bacpacFileName 
-Set-AzStorageBlobContent -File $bacpacFileName -Container "raw" -Blob 'Geography.csv' -Context $ctx
+Invoke-WebRequest -Uri $uri -OutFile $bacpacFileName
+Set-AzStorageBlobContent -File $bacpacFileName -Container "raw" -Blob 'import-terms-sample.csv' -Context $ctx
