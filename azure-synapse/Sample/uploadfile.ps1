@@ -1,9 +1,9 @@
 Write-Host "file upload script called"
-$Resourcegroupname = az-lab-purview;
-$RawDataLakeAccountName = pvlabebe1ceadls;
+$Resourcegroupname = "az-lab-purview";
+$RawDataLakeAccountName = "pvlabebe1ceadls";
 $uri = "https://raw.githubusercontent.com/CSALabsAutomation/azure-synapse-labs/main/environments/env1/Sample/Artifacts/TaxiDataFiles/Geography.csv";
 $bacpacFileName = "Geography.csv";
-#$storageaccount = Get-AzStorageAccount -ResourceGroupName $Resourcegroupname;
+
 $storageaccountkey = Get-AzStorageAccountKey -ResourceGroupName $Resourcegroupname -Name $RawDataLakeAccountName;
 
 $ctx = New-AzStorageContext -StorageAccountName $RawDataLakeAccountName -StorageAccountKey $storageaccountkey.Value[0]
