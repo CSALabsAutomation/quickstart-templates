@@ -1,4 +1,8 @@
 Write-Host "file upload script called"
+ if ((Get-Module -ListAvailable Az.Accounts) -eq $null)
+	{
+       Install-Module -Name Az.Accounts -Force
+    }
 $Resourcegroupname = "az-lab-purview";
 $RawDataLakeAccountName = "pvlabebe1ceadls";
 $uri = "https://raw.githubusercontent.com/CSALabsAutomation/azure-synapse-labs/main/environments/env1/Sample/Artifacts/TaxiDataFiles/Geography.csv";
