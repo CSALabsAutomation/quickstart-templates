@@ -3,8 +3,8 @@ Write-Host "file upload script called"
 	{
        Install-Module -Name Az.Accounts -Force
     }
-$Resourcegroupname = "ayush-e2e-purview-lab17";
-$RawDataLakeAccountName = "pvlab17adls";
+$Resourcegroupname = "ayush-e2e-purview-lab18";
+$RawDataLakeAccountName = "pvlab18adls";
 $uri = "https://raw.githubusercontent.com/CSALabsAutomation/azure-synapse-labs/main/environments/env1/Sample/Artifacts/TaxiDataFiles/Geography.csv";
 $bacpacFileName = "Geography.csv";
 
