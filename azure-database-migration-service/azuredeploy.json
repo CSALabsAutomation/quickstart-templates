@@ -63,7 +63,7 @@
             "metadata": {
                 "description": "The base URI where artifacts required by this template are located including a trailing '/'"
             },
-            "defaultValue": "[deployment().properties.templateLink.uri]"
+            "defaultValue": "https://raw.githubusercontent.com/CSALabsAutomation/quickstart-templates/main/azure-database-migration-service/"
         },
         "_artifactsLocationSasToken": {
             "type": "securestring",
