@@ -1,0 +1,96 @@
+configs ={"fs.azure.account.auth.type": "OAuth",
+          "fs.azure.account.oauth.provider.type": "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider",
+          "fs.azure.account.oauth2.client.id":"3c6c0f66-7e69-497d-b62a-90e1fc5f677c",
+          "fs.azure.account.oauth2.client.secret": dbutils.secrets.get(scope="keyvalut-2",key="secret"),
+          "fs.azure.account.oauth2.client.endpoint": "https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47/oauth2/token" }
+try:
+    dbutils.fs.mount(
+    source="abfss://stgbrfs@stgbr.dfs.core.windows.net/",
+    mount_point="/mnt/stgbrfs/",
+    extra_configs = configs)
+except Exception as e:
+    print ("Error: {} alredy monted.Run unmount first")
+
+
+# browse layer raw tables
+rootdirectory ='/mnt/stgbrfs/';
+childirecotry= '/mnt/stgbrfs/'+'Source'
+list=[]
+list =dbutils.fs.ls(childirecotry)
+ite_list =len(list)
+#data = pd.DataFrame(list)
+#display(data)
+for col in range(ite_list):
+    name=list[col].name.replace('.csv','')
+    path=list[col].path    
+    if(name=="channeltype"):
+        df=(spark.read.option("header","true").option("inferSchema","true").csv(path))
+        df.write.option("header",True).format("csv").mode("overwrite").save("/mnt/stgbrfs/test1/channel")
+        db_name = "Delta_test1"
+        spark.sql(f"CREATE DATABASE IF NOT EXISTS {db_name}")
+        #permantable=name
+        df.write.format("delta").mode("overwrite").saveAsTable("Delta_test1.channeltype_raw")
+    if(name=="country"):
+        dfcountry=(spark.read.option("header","true").option("inferSchema","true").csv(path))
+        dfcountry.write.option("header",True).format("csv").mode("overwrite").save("/mnt/stgbrfs/test1/country")
+        db_name = "Delta_test1"
+        spark.sql(f"CREATE DATABASE IF NOT EXISTS {db_name}")
+        #permantable=name
+        dfcountry.write.format("delta").mode("overwrite").saveAsTable("Delta_test1.country_raw")
+    if(name=="customerdata"):
+        dfcustomer=(spark.read.option("header","true").option("inferSchema","true").csv(path))
+        dfcustomer.write.option("header",True).format("csv").mode("overwrite").save("/mnt/stgbrfs/test1/customerdata")
+        db_name = "Delta_test1"
+        spark.sql(f"CREATE DATABASE IF NOT EXISTS {db_name}")
+        #permantable=name
+        dfcustomer.write.format("delta").mode("overwrite").saveAsTable("Delta_test1.customerdata_raw")
+    if(name=="date"):
+        dfdate=(spark.read.option("header","true").option("inferSchema","true").csv(path))
+        dfdate.write.option("header",True).format("csv").mode("overwrite").save("/mnt/stgbrfs/test1/date")
+        db_name = "Delta_test1"
+        spark.sql(f"CREATE DATABASE IF NOT EXISTS {db_name}")
+        #permantable=name
+        dfdate.write.format("delta").mode("overwrite").saveAsTable("Delta_test1.date_raw")
+    if(name=="location"):
+        dflocation=(spark.read.option("header","true").option("inferSchema","true").csv(path))
+        dflocation.write.option("header",True).format("csv").mode("overwrite").save("/mnt/stgbrfs/test1/location")
+        db_name = "Delta_test1"
+        spark.sql(f"CREATE DATABASE IF NOT EXISTS {db_name}")
+        #permantable=name
+        dflocation.write.format("delta").mode("overwrite").saveAsTable("Delta_test1.location_raw")
+    if(name=="productdata"):
+        dfproductdata=(spark.read.option("header","true").option("inferSchema","true").csv(path))
+        dfproductdata.write.option("header",True).format("csv").mode("overwrite").save("/mnt/stgbrfs/test1/productdata")
+        db_name = "Delta_test1"
+        spark.sql(f"CREATE DATABASE IF NOT EXISTS {db_name}")
+        #permantable=name
+        dfproductdata.write.format("delta").mode("overwrite").saveAsTable("Delta_test1.productdata_raw")
+    if(name=="reseller"):
+        dfreseller=(spark.read.option("header","true").option("inferSchema","true").csv(path))
+        dfreseller.write.option("header",True).format("csv").mode("overwrite").save("/mnt/stgbrfs/test1/reseller")
+        db_name = "Delta_test1"
+        spark.sql(f"CREATE DATABASE IF NOT EXISTS {db_name}")
+        #permantable=name
+        dfreseller.write.format("delta").mode("overwrite").saveAsTable("Delta_test1.reseller_raw")
+    if(name=="sales"):
+        dfsales=(spark.read.option("header","true").option("inferSchema","true").csv(path))
+        dfsales.write.option("header",True).format("csv").mode("overwrite").save("/mnt/stgbrfs/test1/sales")
+        db_name = "Delta_test1"
+        spark.sql(f"CREATE DATABASE IF NOT EXISTS {db_name}")
+        #permantable=name
+        dfsales.write.format("delta").mode("overwrite").saveAsTable("Delta_test1.sales_raw")
+    if(name=="salesorder"):
+        dfsaleorder=(spark.read.option("header","true").option("inferSchema","true").csv(path))
+        dfsaleorder.write.option("header",True).format("csv").mode("overwrite").save("/mnt/stgbrfs/test1/salesorder")
+        db_name = "Delta_test1"
+        spark.sql(f"CREATE DATABASE IF NOT EXISTS {db_name}")
+        #permantable=name
+        dfsaleorder.write.format("delta").mode("overwrite").saveAsTable("Delta_test1.salesorder_raw")
+    if(name=="salesterritory"):
+        dfsaleterritory=(spark.read.option("header","true").option("inferSchema","true").csv(path))
+        dfsaleterritory.write.option("header",True).format("csv").mode("overwrite").save("/mnt/stgbrfs/test1/salesterritory")
+        db_name = "Delta_test1"
+        spark.sql(f"CREATE DATABASE IF NOT EXISTS {db_name}")
+        #permantable=name
+        dfsaleterritory.write.format("delta").mode("overwrite").saveAsTable("Delta_test1.salesterritory_raw")
+    
