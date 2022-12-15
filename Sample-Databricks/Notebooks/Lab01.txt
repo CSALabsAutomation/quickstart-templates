@@ -1,0 +1,73 @@
+spark.conf.set("fs.azure.account.key.stgbr.dfs.core.windows.net","fFq/T9GB5MQfyxZWZxkWfbl5IullG22DwiM0sD/br5a8/N2K2jzMG85r0E1KR/znQ81W4iUepnNZ+AStz3f49A==")
+
+
+import dlt
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
+
+customerpath='abfss://stgbrfs@stgbr.dfs.core.windows.net/stage/customerdata.csv'
+datepath='abfss://stgbrfs@stgbr.dfs.core.windows.net/stage/date.csv'
+productpath= 'abfss://stgbrfs@stgbr.dfs.core.windows.net/stage/productdata.csv'
+salespath= 'abfss://stgbrfs@stgbr.dfs.core.windows.net/stage/sales.csv'
+#saleorderspath= 'abfss://stgbrfs@stgbr.dfs.core.windows.net/Source/salesorder.csv'
+
+@dlt.table(
+    comment="the customer raw dataset, ingested from adlsgen2."
+    )
+def customer_raw():
+    return (spark.read.csv(customerpath,header=True))
+
+@dlt.table(
+    comment="the date raw dataset, ingested from adlgen2."
+    )
+def date_raw():
+    return (spark.read.csv(datepath,header=True))
+
+@dlt.table(
+    comment="the Productdata raw dataset, ingested from adlgen2."
+    )
+def productdata_raw():
+    return (spark.read.csv(productpath,header=True))
+
+@dlt.table(
+    comment="the sales order raw dataset, ingested from adlgen2."
+    )
+def sales_raw():
+    return (spark.read.csv(salespath,header=True))
+
+#silver table ingestion
+  
+@dlt.table(
+  comment="The cleaned sales  with valid order_number(s) and partitioned by order_date",
+ # partition_cols=["order_date"],
+  table_properties={
+    "myCompanyPipeline.quality": "silver",
+    "pipelines.autoOptimize.managed": "true"
+  }
+)
+#@dlt.expect_or_drop("valid order_number", "order_number IS NOT NULL")
+def sales_cleaned():
+    df = dlt.read("sales_raw").join(dlt.read("customer_raw"),["customerkey"], "inner")
+   # df = df.withColumn("sale_amount", round(df.salesamount,2)) 
+    df = df.withColumn("salesamount", round(df.salesamount,2))
+    df = df.select("customerkey","customer", "city", "salesamount")
+    return df
+
+#gold table ingestion
+
+@dlt.create_table(
+  comment="Aggregated sales orders in LA",
+  table_properties={
+    "myCompanyPipeline.quality": "gold",
+    "pipelines.autoOptimize.managed": "true"
+  }
+)
+
+def sales_in_la():
+    df = dlt.read("sales_cleaned").where("city == 'Los Angeles'") 
+    df = df.select(df.city, df.salesamount, df.customerkey, df.customer)
+
+    dfAgg = df.groupBy(df.city, df.customerkey, df.customer)\
+    .agg(sum(df.salesamount).alias("sales"))
+
+    return dfAgg
