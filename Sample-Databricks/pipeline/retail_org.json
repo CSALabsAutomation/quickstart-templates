@@ -1,0 +1,114 @@
+{
+    "name": "retail_org",
+    "properties": {
+        "activities": [
+            {
+                "name": "getpostgresql",
+                "type": "Lookup",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "PostgreSqlSource",
+                        "query": "select table_name from INFORMATION_SCHEMA.tables where table_schema = 'public'"
+                    },
+                    "dataset": {
+                        "referenceName": "ds_postgresql",
+                        "type": "DatasetReference"
+                    },
+                    "firstRowOnly": false
+                }
+            },
+            {
+                "name": "looping",
+                "type": "ForEach",
+                "dependsOn": [
+                    {
+                        "activity": "getpostgresql",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "userProperties": [],
+                "typeProperties": {
+                    "items": {
+                        "value": "@activity('getpostgresql').output.value",
+                        "type": "Expression"
+                    },
+                    "isSequential": true,
+                    "activities": [
+                        {
+                            "name": "Cpydata",
+                            "type": "Copy",
+                            "dependsOn": [],
+                            "policy": {
+                                "timeout": "0.12:00:00",
+                                "retry": 0,
+                                "retryIntervalInSeconds": 30,
+                                "secureOutput": false,
+                                "secureInput": false
+                            },
+                            "userProperties": [],
+                            "typeProperties": {
+                                "source": {
+                                    "type": "PostgreSqlSource"
+                                },
+                                "sink": {
+                                    "type": "ParquetSink",
+                                    "storeSettings": {
+                                        "type": "AzureBlobFSWriteSettings"
+                                    },
+                                    "formatSettings": {
+                                        "type": "ParquetWriteSettings"
+                                    }
+                                },
+                                "enableStaging": false,
+                                "translator": {
+                                    "type": "TabularTranslator",
+                                    "typeConversion": true,
+                                    "typeConversionSettings": {
+                                        "allowDataTruncation": true,
+                                        "treatBooleanAsNumber": false
+                                    }
+                                }
+                            },
+                            "inputs": [
+                                {
+                                    "referenceName": "ds_sink",
+                                    "type": "DatasetReference",
+                                    "parameters": {
+                                        "table_name": {
+                                            "value": "@item().table_name",
+                                            "type": "Expression"
+                                        }
+                                    }
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "referenceName": "ds_sourceparquet",
+                                    "type": "DatasetReference",
+                                    "parameters": {
+                                        "table_name": {
+                                            "value": "@item().table_name",
+                                            "type": "Expression"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ],
+        "annotations": []
+    }
+}
