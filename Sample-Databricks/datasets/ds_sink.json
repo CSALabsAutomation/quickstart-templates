@@ -1,0 +1,24 @@
+{
+    "name": "ds_sink",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "lnkpostgres",
+            "type": "LinkedServiceReference"
+        },
+        "parameters": {
+            "table_name": {
+                "type": "string"
+            }
+        },
+        "annotations": [],
+        "type": "PostgreSqlTable",
+        "schema": [],
+        "typeProperties": {
+            "schema": "public",
+            "table": {
+                "value": "@dataset().table_name",
+                "type": "Expression"
+            }
+        }
+    }
+}
