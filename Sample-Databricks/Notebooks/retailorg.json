@@ -1,0 +1,65 @@
+configs ={"fs.azure.account.auth.type": "OAuth",
+          "fs.azure.account.oauth.provider.type": "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider",
+          "fs.azure.account.oauth2.client.id":"1445569b-885a-4530-9a1b-ff2317bb816c",
+          "fs.azure.account.oauth2.client.secret": dbutils.secrets.get(scope="keyvalut-db",key="secret"),
+          "fs.azure.account.oauth2.client.endpoint": "https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47/oauth2/token" }
+try:
+    dbutils.fs.mount(
+    source="abfss://data@adls2tyhnpj4zi52e.dfs.core.windows.net/",
+    mount_point="/mnt/data/",
+    extra_configs = configs)
+except Exception as e:
+    print ("Error: {} alredy monted.Run unmount first")
+
+
+import dlt
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
+import datetime
+
+#create streaming delta live table 
+
+now = datetime.datetime.now()
+currentdate =now.strftime("%Y-%m-%d")
+
+salesorderstreampath='/mnt/data/'+currentdate+'/'
+
+@dlt.table(
+    comment="the streaming raw dataset."
+    )
+def sales_orders_stream_raw():
+    return (spark.read.parquet(salesorderstreampath,header=True))
+
+
+
+# customers raw delta live table
+
+customerpath='/mnt/data/customers/customers.parquet'
+
+@dlt.table(
+    comment="the customers raw dataset."
+    )
+def customers_raw():
+    return (spark.read.parquet(customerpath,header=True))
+
+
+
+#products raw delta live table
+productpath ='/mnt/data/products/products.parquet'
+
+@dlt.table(
+    comment="the prdduct raw dataset."
+    )
+def products_raw():
+    return (spark.read.parquet(productpath,header=True))
+
+
+
+# sales order batch raw delta live table
+salesorderbatchpath='/mnt/data/sales_orders/sales_orders.parquet'
+
+@dlt.table(
+    comment="the sales order batch raw dataset.."
+    )
+def sales_orders_batch_raw():
+    return (spark.read.parquet(salesorderbatchpath,header=True))
