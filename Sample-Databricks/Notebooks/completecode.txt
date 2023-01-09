@@ -1,0 +1,245 @@
+import dlt
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
+
+streamsalesorderpath='abfss://data@adlsrzrwjwoong4im.dfs.core.windows.net/0_b8ab580d2fc94c67a899f2a780c36c8a_1.json'
+customerpath='abfss://data@adlsrzrwjwoong4im.dfs.core.windows.net/customers/customers.parquet'
+productpath='abfss://data@adlsrzrwjwoong4im.dfs.core.windows.net/products/products.parquet'
+salesorderpath='abfss://data@adlsrzrwjwoong4im.dfs.core.windows.net/sales_orders/sales_orders.parquet'
+
+
+@dlt.table(
+    comment="the stream live raw dataset, ingested from adlsgen2."
+    )
+def sales_orders_stream_raw():
+    return (spark.read.json(streamsalesorderpath))
+
+@dlt.table(
+    comment="the customer raw dataset, ingested from adlsgen2."
+    )
+def customers_raw():
+    return (spark.read.parquet(customerpath,header=True))
+
+@dlt.table(
+    comment="the prdduct raw dataset, ingested from adlgen2."
+    )
+def products_raw():
+    return (spark.read.parquet(productpath,header=True))
+
+@dlt.table(
+    comment="the sales order raw dataset, ingested from adlgen2."
+    )
+def sales_orders_batch_raw():
+    return (spark.read.parquet(salesorderpath,header=True))
+-------------------------------------------------------------------------------------------------
+
+sales_orders_schema = StructType(
+    [
+        StructField("customer_id", LongType(), True),
+        StructField("customer_name", StringType(), True),
+        StructField("order_datetime", StringType(), True),
+        StructField("order_number", LongType(), True),
+        StructField(
+            "ordered_products",
+            ArrayType(
+                StructType(
+                    [
+                        StructField("curr", StringType(), True),
+                        StructField("id", StringType(), True),
+                        StructField("name", StringType(), True),
+                        StructField("price", IntegerType(), True),
+                        StructField("qty", IntegerType(), True),
+                        StructField("unit", StringType(), True),
+                        StructField(
+                            "promotion_info",
+                            StructType(
+                                [
+                                    StructField("promo_id", IntegerType(), True),
+                                    StructField("promo_qty", IntegerType(), True),
+                                    StructField("promo_disc", DecimalType(3, 2), True),
+                                    StructField("promo_item", StringType(), True),
+                                ]
+                            ),
+                            True,
+                        ),
+                    ]
+                ),
+                True,
+            ),
+            True,
+        ),
+        StructField("number_of_line_items", LongType(), True),
+        StructField(
+            "clicked_items", ArrayType(ArrayType(StringType(), True), True), True
+        ),
+        StructField(
+            "promo_info",
+            ArrayType(
+                StructType(
+                    [
+                        StructField("promo_id", IntegerType(), True),
+                        StructField("promo_qty", IntegerType(), True),
+                        StructField("promo_disc", DecimalType(3, 2), True),
+                        StructField("promo_item", StringType(), True),
+                    ]
+                ),
+                True,
+            ),
+            True,
+        ),
+    ]
+)
+
+
+@dlt.table(
+    comment="Load data to sales_orders cleansed table",
+    table_properties={"pipelines.reset.allowed": "true"},
+    spark_conf={"pipelines.trigger.interval": "60 seconds"},
+    temporary=False,
+)
+def sales_orders_cleansed():
+    return (
+        dlt.read("sales_orders_stream_raw")        
+        .select(get_json_object(to_json(col("payload")), "$.after").alias("row"))
+        .withColumn("row", regexp_replace("row", '"\\[', "["))
+        .withColumn("row", regexp_replace("row", '\\]"', "]"))
+        .withColumn("row", regexp_replace("row", "\\\\", ""))
+        .select(from_json(col("row"), sales_orders_schema).alias("row"))
+        .select("row.*")
+        .withColumn("ordered_products", explode("ordered_products"))
+        .withColumn("order_datetime", from_unixtime("order_datetime"))
+        .withColumn("product_id", col("ordered_products").id)
+        .withColumn("unit_price", col("ordered_products").price)
+        .withColumn("quantity", col("ordered_products").qty)
+    )
+--------------------------------------------------------------------------------------------------------------
+
+@dlt.table(
+    comment="Load data to customers cleansed table",
+    table_properties={"pipelines.reset.allowed": "true"},
+    spark_conf={"pipelines.trigger.interval": "60 seconds"},
+    temporary=False,
+)
+def customers_cleansed():
+    return (
+        dlt.read("customers_raw")
+        
+    )
+
+----------------------------------------------------------------------------
+
+@dlt.table(
+    comment="Load data to a products cleansed table",
+    table_properties={"pipelines.reset.allowed": "true"},
+    spark_conf={"pipelines.trigger.interval": "60 seconds"},
+    temporary=False,
+)
+def products_cleansed():
+    return (
+        dlt.read("products_raw")        
+    )
+
+-----------------------------------------------------------------------------------------
+
+@dlt.table(
+    schema="""
+         product_key BIGINT GENERATED ALWAYS AS identity,
+         product_id STRING,
+         product_category STRING,
+         product_name STRING,
+         sales_price STRING,
+         ean13 DOUBLE,
+         ean5 STRING,
+         product_unit STRING    
+    """,
+    comment="Load data to products dimension table",
+    table_properties={"quality": "gold", "pipelines.reset.allowed": "true"},
+    spark_conf={"pipelines.trigger.interval": "60 seconds"},
+    temporary=False,
+)
+def dim_products():
+    return dlt.read("products_cleansed")
+
+-----------------------------------------------------------------------------------------------------
+
+@dlt.table(
+    schema="""
+          customer_key BIGINT GENERATED ALWAYS AS IDENTITY,
+          customer_id integer,
+          tax_id STRING,
+          tax_code STRING,
+          customer_name STRING,
+          state STRING,
+          city STRING,
+          postcode STRING,
+          street STRING,
+          number STRING,
+          unit STRING,
+          region STRING,
+          district STRING,
+          lon double,
+          lat double,
+          ship_to_address STRING,
+          valid_from STRING,
+          valid_to STRING,
+          units_purchased STRING,
+          loyalty_segment integer
+    """,
+    comment="Load data to customers dimension table",
+    table_properties={"quality": "gold", "pipelines.reset.allowed": "true"},
+    spark_conf={"pipelines.trigger.interval": "60 seconds"},
+    temporary=False,
+)
+def dim_customers():
+    return dlt.read("customers_cleansed")
+
+---------------------------------------------------------------------------------------------------------------------
+
+
+@dlt.table(
+    comment="load data to sales orders fact table",
+    table_properties={"quality": "gold", "pipelines.reset.allowed": "true"},
+    spark_conf={"pipelines.trigger.interval": "60 seconds"},
+    temporary=False,
+)
+def fact_sales_orders():
+    s = dlt.read("sales_orders_cleansed").alias("s")
+    p = dlt.read("dim_products").alias("p")
+    c = dlt.read("dim_customers").alias("c")
+    return (
+        s.join(p, s.product_id == p.product_id, "inner")
+        .join(c, s.customer_id == c.customer_id, "inner")
+        .select(
+            "s.order_number",
+            "c.customer_key",
+            "p.product_key",
+            col("s.order_datetime").cast("date").alias("order_date"),
+            "s.unit_price",
+            "s.quantity",
+            expr("s.unit_price * s.quantity").alias("total_price"),
+        )
+    )
+
+---------------------------------------------------------------------------------------------------------------------------
+
+
+@dlt.table(
+    comment="load data to customer sales fact table",
+    table_properties={"quality": "gold", "pipelines.reset.allowed": "true"},
+    spark_conf={"pipelines.trigger.interval": "60 seconds"},
+    temporary=False,
+)
+def fact_customer_sales():
+    s = dlt.read("sales_orders_cleansed").alias("s")
+    p = dlt.read("dim_products").alias("p")
+    c = dlt.read("dim_customers").alias("c")
+    return (
+        s.join(p, s.product_id == p.product_id, "inner")
+        .join(c, s.customer_id == c.customer_id, "inner")
+        .groupBy("c.customer_key", "p.product_key")
+        .agg(
+            sum("quantity").alias("total_quantity"),
+            sum(expr("s.unit_price * s.quantity")).alias("sale_amount"),
+        )
+    )
+
