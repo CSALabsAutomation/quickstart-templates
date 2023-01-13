@@ -50,7 +50,6 @@
             }
         },
         "targetSqlDbAdministratorPassword": {
-            "defaultValue": "Password@123",
             "type": "securestring",
             "metadata": {
                 "description": "Administrator Password for the Target Azure SQL DB Server."
