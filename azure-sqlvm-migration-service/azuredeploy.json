@@ -59,14 +59,12 @@
             }
         },
         "sourceWindowsAdminPassword": {
-            "defaultValue": "Password@123",
             "type": "securestring",
             "metadata": {
                 "description": "Windows Authentication password for the source server"
             }
         },
         "sourceSqlAuthenticationPassword": {
-            "defaultValue": "Password@123",
             "type": "securestring",
             "metadata": {
                 "description": "Sql Authentication password for the source server (User name will be same as Windows Auth)"
@@ -80,14 +78,12 @@
             }
         },
         "targetWindowsAdminPassword": {
-            "defaultValue": "Password@123",
             "type": "securestring",
             "metadata": {
                 "description": "Windows Authentication password for the source server"
             }
         },
         "targetSqlAuthenticationPassword": {
-            "defaultValue": "Password@123",
             "type": "securestring",
             "metadata": {
                 "description": "Sql Authentication password for the source server (User name will be same as Windows Auth)"
