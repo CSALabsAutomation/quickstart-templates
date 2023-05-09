@@ -30,7 +30,7 @@ Write-Output "Task: Generating Databricks Token"
     $BODY = @"
     { "lifetime_seconds": $LIFETIME_SECONDS, "comment": "$COMMENT" }
 "@
-    $DB_PAT = ((Invoke-RestMethod -Method POST -Uri "https://$REGION.azuredatabricks.net/api/2.0/token/create" -Headers $HEADERS -Body $BODY).token_value)
+    $DB_PAT = ((Invoke-RestMethod -Method POST -Uri "https://eastus.azuredatabricks.net/api/2.0/token/create" -Headers $HEADERS -Body $BODY).token_value)
 
 if ($CTRL_DEPLOY_NOTEBOOK) {
 
@@ -68,7 +68,7 @@ $headers = @{
 }
 Write-Output "Task:6"
 # Make the HTTP request to import the notebook
-$response = Invoke-RestMethod -Method POST -Uri "https://$REGION.azuredatabricks.net/api/2.0/workspace/import" -Headers $headers -Body $jsonBody
+$response = Invoke-RestMethod -Method POST -Uri "https://eastus.azuredatabricks.net/api/2.0/workspace/import" -Headers $headers -Body $jsonBody
 Write-Output "Task:7"
 # Output the response
 Write-Output $response
