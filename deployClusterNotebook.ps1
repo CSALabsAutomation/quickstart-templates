@@ -30,7 +30,7 @@ Write-Output "Task: Generating Databricks Token"
     $BODY = @"
     { "lifetime_seconds": $LIFETIME_SECONDS, "comment": "$COMMENT" }
 "@
-    $DB_PAT = ((Invoke-RestMethod -Method POST -Uri "https://eastus.azuredatabricks.net/api/2.0/token/create" -Headers $HEADERS -Body $BODY).token_value)
+    $DB_PAT = ((Invoke-RestMethod -Method POST -Uri "https://$REGION.azuredatabricks.net/api/2.0/token/create" -Headers $HEADERS -Body $BODY).token_value)
 
 if ($CTRL_DEPLOY_NOTEBOOK) {
 
@@ -41,37 +41,34 @@ if ($CTRL_DEPLOY_NOTEBOOK) {
 #$url = "https://raw.githubusercontent.com/ksameer18/azure-synapse-labs/main/environments/env1/Sample/Artifacts/Notebooks/01-UsingOpenDatasetsSynapse.ipynb"
 $userName = (Get-AzContext).Account.Id
 $Webresults = Invoke-WebRequest $NOTEBOOK_PATH -UseBasicParsing
-Write-Output "Task:1"
+
 # Read the notebook file
 $notebookContent = $Webresults.Content
 #Write-Output $notebookContent
-Write-Output "Task:2"
+
 # Base64 encode the notebook content
 $notebookBase64 = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($notebookContent))
 
-Write-Output "Task:3"
 # Set the request body
 $requestBody = @{
   "content" = $notebookBase64
-  "path" = "/Users/v-khareayush@microsoft.com/notebook1"
+  "path" = "/Shared/notebook2"
   "language" = "PYTHON"
   "format" = "JUPYTER" 
 }
-Write-Output "Task:4"
+
 #Convert the request body to JSON
 $jsonBody = ConvertTo-Json -Depth 100 $requestBody
-Write-Output "Task:5"
-Write-Output $jsonBody
+
 # Set the headers
 $headers = @{
   "Authorization" = "Bearer $DB_PAT"
   "Content-Type" = "application/json"
 }
-Write-Output "Task:6"
-Write-Output $headers
+
 # Make the HTTP request to import the notebook
-$response = Invoke-RestMethod -Method POST -Uri "https://eastus.azuredatabricks.net/api/2.0/workspace/import" -Headers $headers -Body $jsonBody
-Write-Output "Task:7"
+$response = Invoke-RestMethod -Method POST -Uri "https://$REGION.azuredatabricks.net/api/2.0/workspace/import" -Headers $headers -Body $jsonBody
+
 # Output the response
 Write-Output $response
 
