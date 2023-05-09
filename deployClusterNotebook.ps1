@@ -61,12 +61,14 @@ Write-Output "Task:4"
 #Convert the request body to JSON
 $jsonBody = ConvertTo-Json -Depth 100 $requestBody
 Write-Output "Task:5"
+Write-Output $jsonBody
 # Set the headers
 $headers = @{
   "Authorization" = "Bearer $DB_PAT"
   "Content-Type" = "application/json"
 }
 Write-Output "Task:6"
+Write-Output $headers
 # Make the HTTP request to import the notebook
 $response = Invoke-RestMethod -Method POST -Uri "https://eastus.azuredatabricks.net/api/2.0/workspace/import" -Headers $headers -Body $jsonBody
 Write-Output "Task:7"
