@@ -53,7 +53,7 @@ Write-Output "Task:3"
 # Set the request body
 $requestBody = @{
   "content" = $notebookBase64
-  "path" = "/Users/$userName/notebook"
+  "path" = "/Users/v-khareayush@microsoft.com/notebook1"
   "language" = "PYTHON"
   "format" = "JUPYTER" 
 }
